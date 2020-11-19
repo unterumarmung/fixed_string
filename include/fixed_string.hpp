@@ -10,7 +10,8 @@
 namespace fixstr
 {
 
-template <typename TChar, std::size_t N, typename TTraits = std::char_traits<TChar>> struct basic_fixed_string
+template <typename TChar, std::size_t N, typename TTraits = std::char_traits<TChar>>
+struct basic_fixed_string
 {
     // exposition only
     using storage_type = std::array<TChar, N + 1>;
@@ -70,19 +71,30 @@ template <typename TChar, std::size_t N, typename TTraits = std::char_traits<TCh
     [[nodiscard]] constexpr const_iterator rend() const noexcept { return _data.rend(); }
     [[nodiscard]] constexpr const_iterator crbegin() const noexcept { return _data.crbegin(); }
     [[nodiscard]] constexpr const_iterator crend() const noexcept { return _data.crend(); }
+
+    // capacity
+    [[nodiscard]] constexpr size_type size() const noexcept { return N; }
+    [[nodiscard]] constexpr size_type length() const noexcept { return N; }
+    [[nodiscard]] constexpr size_type max_size() const noexcept { return N; }
+    [[nodiscard]] constexpr bool empty() const noexcept { return N == 0; }
 };
 
-template <size_t N> using fixed_string = basic_fixed_string<char, N>;
+template <size_t N>
+using fixed_string = basic_fixed_string<char, N>;
 
 #if FIXSTR_CPP20_CHAR8T_PRESENT
-template <size_t N> using fixed_u8string = basic_fixed_string<char8_t, N>;
+template <size_t N>
+using fixed_u8string = basic_fixed_string<char8_t, N>;
 #endif // FIXSTR_CPP20_CHAR8T_PRESENT
 
-template <size_t N> using fixed_u16string = basic_fixed_string<char16_t, N>;
+template <size_t N>
+using fixed_u16string = basic_fixed_string<char16_t, N>;
 
-template <size_t N> using fixed_u32string = basic_fixed_string<char32_t, N>;
+template <size_t N>
+using fixed_u32string = basic_fixed_string<char32_t, N>;
 
-template <size_t N> using fixed_wstring = basic_fixed_string<wchar_t, N>;
+template <size_t N>
+using fixed_wstring = basic_fixed_string<wchar_t, N>;
 
 } // namespace fixstr
 
