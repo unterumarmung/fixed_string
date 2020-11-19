@@ -2,16 +2,15 @@
 #define FIXED_STRING_HPP
 
 #include <array>
-#include <string_view>
 #include <iterator>
+#include <string_view>
 
 #define FIXSTR_CPP20_CHAR8T_PRESENT __cpp_char8_t
 
 namespace fixstr
 {
 
-template<typename TChar, std::size_t N, typename TTraits = std::char_traits<TChar>>
-struct basic_fixed_string
+template <typename TChar, std::size_t N, typename TTraits = std::char_traits<TChar>> struct basic_fixed_string
 {
     // exposition only
     using storage_type = std::array<TChar, N + 1>;
@@ -31,12 +30,9 @@ struct basic_fixed_string
     using difference_type = ptrdiff_t;
     using string_view_type = std::basic_string_view<value_type, traits_type>;
 
-    constexpr basic_fixed_string() noexcept
-    {
-        _data.fill(static_cast<value_type>(0));
-    }
+    constexpr basic_fixed_string() noexcept { _data.fill(static_cast<value_type>(0)); }
 
-    constexpr basic_fixed_string(const value_type(&array)[N + 1]) noexcept // NOLINT(google-explicit-constructor)
+    constexpr basic_fixed_string(const value_type (&array)[N + 1]) noexcept // NOLINT(google-explicit-constructor)
     {
         std::copy(std::begin(array), std::end(array), _data.begin());
     }
@@ -46,75 +42,47 @@ struct basic_fixed_string
         std::copy(other.begin(), other.end(), _data.begin());
     }
 
-    constexpr basic_fixed_string& operator=(const basic_fixed_string& other) noexcept
+    constexpr basic_fixed_string &operator=(const basic_fixed_string &other) noexcept
     {
         std::copy(other.begin(), other.end(), _data.begin());
         return *this;
     }
 
-    constexpr basic_fixed_string& operator=(const value_type (&array)[N + 1]) noexcept
+    constexpr basic_fixed_string &operator=(const value_type (&array)[N + 1]) noexcept
     {
         std::copy(std::begin(array), std::end(array), _data.begin());
         return *this;
     }
 
-    constexpr pointer data() noexcept
-    {
-        return _data.data();
-    }
+    [[nodiscard]] constexpr pointer data() noexcept { return _data.data(); }
+    [[nodiscard]] constexpr const_pointer data() const noexcept { return _data.data(); }
 
-    constexpr const_pointer data() const noexcept
-    {
-        return _data.data();
-    }
-
-    constexpr iterator begin() noexcept
-    {
-        return _data.begin();
-    }
-
-    constexpr const_iterator begin() const noexcept
-    {
-        return _data.cbegin();
-    }
-
-    constexpr iterator end() noexcept
-    {
-        return _data.end();
-    }
-
-    constexpr const_iterator end() const noexcept
-    {
-        return _data.cend();
-    }
-
-    constexpr const_iterator cbegin() const noexcept
-    {
-        return _data.cbegin();
-    }
-
-    constexpr const_iterator cend() const noexcept
-    {
-        return _data.cend();
-    }
+    // iterators
+    [[nodiscard]] constexpr iterator begin() noexcept { return _data.begin(); }
+    [[nodiscard]] constexpr const_iterator begin() const noexcept { return _data.begin(); }
+    [[nodiscard]] constexpr iterator end() noexcept { return _data.end(); }
+    [[nodiscard]] constexpr const_iterator end() const noexcept { return _data.end(); }
+    [[nodiscard]] constexpr const_iterator cbegin() const noexcept { return _data.cbegin(); }
+    [[nodiscard]] constexpr const_iterator cend() const noexcept { return _data.cend(); }
+    [[nodiscard]] constexpr iterator rbegin() noexcept { return _data.rbegin(); }
+    [[nodiscard]] constexpr const_iterator rbegin() const noexcept { return _data.rbegin(); }
+    [[nodiscard]] constexpr iterator rend() noexcept { return _data.rend(); }
+    [[nodiscard]] constexpr const_iterator rend() const noexcept { return _data.rend(); }
+    [[nodiscard]] constexpr const_iterator crbegin() const noexcept { return _data.crbegin(); }
+    [[nodiscard]] constexpr const_iterator crend() const noexcept { return _data.crend(); }
 };
 
-template<size_t N>
-using fixed_string = basic_fixed_string<char, N>;
+template <size_t N> using fixed_string = basic_fixed_string<char, N>;
 
 #if FIXSTR_CPP20_CHAR8T_PRESENT
-template <size_t N>
-using fixed_u8string = basic_fixed_string<char8_t, N>;
+template <size_t N> using fixed_u8string = basic_fixed_string<char8_t, N>;
 #endif // FIXSTR_CPP20_CHAR8T_PRESENT
 
-template<size_t N>
-using fixed_u16string = basic_fixed_string<char16_t, N>;
+template <size_t N> using fixed_u16string = basic_fixed_string<char16_t, N>;
 
-template<size_t N>
-using fixed_u32string = basic_fixed_string<char32_t, N>;
+template <size_t N> using fixed_u32string = basic_fixed_string<char32_t, N>;
 
-template<size_t N>
-using fixed_wstring = basic_fixed_string<wchar_t, N>;
+template <size_t N> using fixed_wstring = basic_fixed_string<wchar_t, N>;
 
 } // namespace fixstr
 
