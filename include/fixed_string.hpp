@@ -74,14 +74,14 @@ struct basic_fixed_string
     [[nodiscard]] constexpr bool      empty() const noexcept { return N == 0; }
 
     // element access
-    constexpr reference       operator[](size_type n) { return _data[n]; }
-    constexpr const_reference operator[](size_type n) const { return _data[n]; }
-    constexpr reference       at(size_type n) { return _data.at(n); }
-    constexpr const_reference at(size_type n) const { return _data.at(n); }
-    constexpr reference       front() { return _data.front(); }
-    constexpr const_reference front() const { return _data.front(); }
-    constexpr reference       back() { return _data.back(); }
-    constexpr const_reference back() const { return _data.back(); }
+    [[nodiscard]] constexpr reference       operator[](size_type n) { return _data[n]; }
+    [[nodiscard]] constexpr const_reference operator[](size_type n) const { return _data[n]; }
+    [[nodiscard]] constexpr reference       at(size_type n) { return _data.at(n); }
+    [[nodiscard]] constexpr const_reference at(size_type n) const { return _data.at(n); }
+    [[nodiscard]] constexpr reference       front() { return _data.front(); }
+    [[nodiscard]] constexpr const_reference front() const { return _data.front(); }
+    [[nodiscard]] constexpr reference       back() { return _data.back(); }
+    [[nodiscard]] constexpr const_reference back() const { return _data.back(); }
 
   private:
     template <size_t M>
