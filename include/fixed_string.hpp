@@ -19,10 +19,10 @@ struct basic_fixed_string
 
     using traits_type = TTraits;
     using value_type = TChar;
-    using pointer = value_type *;
-    using const_pointer = const value_type *;
-    using reference = value_type &;
-    using const_reference = const value_type &;
+    using pointer = value_type*;
+    using const_pointer = const value_type*;
+    using reference = value_type&;
+    using const_reference = const value_type&;
     using iterator = typename storage_type::iterator;
     using const_iterator = typename storage_type::const_iterator;
     using reverse_iterator = typename storage_type::reverse_iterator;
@@ -30,6 +30,7 @@ struct basic_fixed_string
     using size_type = size_t;
     using difference_type = ptrdiff_t;
     using string_view_type = std::basic_string_view<value_type, traits_type>;
+    static constexpr auto npos = string_view_type::npos;
 
     constexpr basic_fixed_string() noexcept { _data.fill(static_cast<value_type>(0)); }
 
@@ -38,18 +39,15 @@ struct basic_fixed_string
         std::copy(std::begin(array), std::end(array), _data.begin());
     }
 
-    constexpr basic_fixed_string(basic_fixed_string const &other) noexcept
-    {
-        std::copy(other.begin(), other.end(), _data.begin());
-    }
+    constexpr basic_fixed_string(basic_fixed_string const& other) noexcept { std::copy(other.begin(), other.end(), _data.begin()); }
 
-    constexpr basic_fixed_string &operator=(const basic_fixed_string &other) noexcept
+    constexpr basic_fixed_string& operator=(const basic_fixed_string& other) noexcept
     {
         std::copy(other.begin(), other.end(), _data.begin());
         return *this;
     }
 
-    constexpr basic_fixed_string &operator=(const value_type (&array)[N + 1]) noexcept
+    constexpr basic_fixed_string& operator=(const value_type (&array)[N + 1]) noexcept
     {
         std::copy(std::begin(array), std::end(array), _data.begin());
         return *this;
@@ -84,6 +82,94 @@ struct basic_fixed_string
     constexpr const_reference front() const { return _data.front(); }
     constexpr reference       back() { return _data.back(); }
     constexpr const_reference back() const { return _data.back(); }
+
+  private:
+    template <size_t M>
+    using same_with_other_size = basic_fixed_string<value_type, M, traits_type>;
+
+  public:
+    // string operations
+    [[nodiscard]] constexpr pointer       data() noexcept { return _data.data(); }
+    [[nodiscard]] constexpr const_pointer data() const noexcept { return _data.data(); }
+    [[nodiscard]] constexpr               operator string_view_type() const noexcept // NOLINT(google-explicit-constructor)
+    {
+        return {data(), N};
+    }
+
+    template <size_t M>
+    [[nodiscard]] constexpr size_type find(const same_with_other_size<M>& str, size_type pos = 0) const noexcept
+    {
+        if constexpr (M > N)
+            return npos;
+        return sv().find(str.sv(), pos);
+    }
+    [[nodiscard]] constexpr size_type find(string_view_type sv, size_type pos = 0) const noexcept { return sv().find(sv, pos); }
+    [[nodiscard]] constexpr size_type find(const value_type* s, size_type pos, size_type n) const { return sv().find(s, pos, n); }
+    [[nodiscard]] constexpr size_type find(const value_type* s, size_type pos = 0) const { return sv().find(s, pos); }
+    [[nodiscard]] constexpr size_type find(value_type c, size_type pos = 0) const noexcept { return sv().find(c, pos); }
+
+    template <size_t M>
+    [[nodiscard]] constexpr size_type rfind(const same_with_other_size<M>& str, size_type pos = npos) const noexcept
+    {
+        if constexpr (M > N)
+            return npos;
+        return sv().rfind(str.sv(), pos);
+    }
+    [[nodiscard]] constexpr size_type rfind(string_view_type sv, size_type pos = npos) const noexcept { return sv().rfind(sv, pos); }
+    [[nodiscard]] constexpr size_type rfind(const value_type* s, size_type pos, size_type n) const { return sv().rfind(s, pos, n); }
+    [[nodiscard]] constexpr size_type rfind(const value_type* s, size_type pos = npos) const { return sv().rfind(s, pos); }
+    [[nodiscard]] constexpr size_type rfind(value_type c, size_type pos = npos) const noexcept { return sv().rfind(c, pos); }
+
+    template <size_t M>
+    [[nodiscard]] constexpr size_type find_first_of(const same_with_other_size<M>& str, size_type pos = 0) const noexcept
+    {
+        if constexpr (M > N)
+            return npos;
+        return sv().find_first_of(str.sv(), pos);
+    }
+    [[nodiscard]] constexpr size_type find_first_of(string_view_type sv, size_type pos = 0) const noexcept { return sv().find_first_of(sv, pos); }
+    [[nodiscard]] constexpr size_type find_first_of(const value_type* s, size_type pos, size_type n) const { return sv().find_first_of(s, pos, n); }
+    [[nodiscard]] constexpr size_type find_first_of(const value_type* s, size_type pos = 0) const { return sv().find_first_of(s, pos); }
+    [[nodiscard]] constexpr size_type find_first_of(value_type c, size_type pos = 0) const noexcept { return sv().find_first_of(c, pos); }
+
+    template <size_t M>
+    [[nodiscard]] constexpr size_type find_last_of(const same_with_other_size<M>& str, size_type pos = npos) const noexcept
+    {
+        if constexpr (M > N)
+            return npos;
+        return sv().find_last_of(str.sv(), pos);
+    }
+    [[nodiscard]] constexpr size_type find_last_of(string_view_type sv, size_type pos = npos) const noexcept { return sv().find_last_of(sv, pos); }
+    [[nodiscard]] constexpr size_type find_last_of(const value_type* s, size_type pos, size_type n) const { return sv().find_last_of(s, pos, n); }
+    [[nodiscard]] constexpr size_type find_last_of(const value_type* s, size_type pos = npos) const { return sv().find_last_of(s, pos); }
+    [[nodiscard]] constexpr size_type find_last_of(value_type c, size_type pos = npos) const noexcept { return sv().find_last_of(c, pos); }
+
+    template <size_t M>
+    [[nodiscard]] constexpr size_type find_first_not_of(const same_with_other_size<M>& str, size_type pos = 0) const noexcept
+    {
+        if constexpr (M > N)
+            return npos;
+        return sv().find_first_of(str.sv(), pos);
+    }
+    [[nodiscard]] constexpr size_type find_first_not_of(string_view_type sv, size_type pos = 0) const noexcept { return sv().find_first_not_of(sv, pos); }
+    [[nodiscard]] constexpr size_type find_first_not_of(const value_type* s, size_type pos, size_type n) const { return sv().find_first_not_of(s, pos, n); }
+    [[nodiscard]] constexpr size_type find_first_not_of(const value_type* s, size_type pos = 0) const { return sv().find_first_not_of(s, pos); }
+    [[nodiscard]] constexpr size_type find_first_not_of(value_type c, size_type pos = 0) const noexcept { return sv().find_first_not_of(c, pos); }
+
+    template <size_t M>
+    [[nodiscard]] constexpr size_type find_last_not_of(const same_with_other_size<M>& str, size_type pos = npos) const noexcept
+    {
+        if constexpr (M > N)
+            return npos;
+        return sv().find_last_of(str.sv(), pos);
+    }
+    [[nodiscard]] constexpr size_type find_last_not_of(string_view_type sv, size_type pos = npos) const noexcept { return sv().find_last_not_of(sv, pos); }
+    [[nodiscard]] constexpr size_type find_last_not_of(const value_type* s, size_type pos, size_type n) const { return sv().find_last_not_of(s, pos, n); }
+    [[nodiscard]] constexpr size_type find_last_not_of(const value_type* s, size_type pos = npos) const { return sv().find_last_not_of(s, pos); }
+    [[nodiscard]] constexpr size_type find_last_not_of(value_type c, size_type pos = npos) const noexcept { return sv().find_last_not_of(c, pos); }
+
+  private:
+    constexpr string_view_type sv() { return *this; }
 };
 
 template <size_t N>
