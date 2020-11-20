@@ -280,3 +280,31 @@ TEST_CASE("Capacity members")
         SECTION("fixed_u32string") { check<fixed_u32string>(); }
     }
 }
+
+namespace string_operations { // NOLINT(modernize-concat-nested-namespaces)
+namespace sv_conversion {
+template <typename T>
+void check()
+{
+    T str;
+    typename T::string_view_type sv = str;
+    REQUIRE(sv.data() == str.data());
+    REQUIRE(sv.size() == str.size());
+}
+} // namespace sv_conversion
+} // namespace string_operations
+
+TEST_CASE("String operations")
+{
+    using namespace string_operations;
+    SECTION("std::string_view conversion") {
+        using namespace sv_conversion;
+        SECTION("fixed_string") { check<fs>(); }
+        SECTION("fixed_wstring") { check<wfs>(); }
+#if FIXSTR_CPP20_CHAR8T_PRESENT
+            SECTION("fixed_u8string") { check<u8fs>(); }
+#endif // FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u16string") { check<u16fs>(); }
+        SECTION("fixed_u32string") { check<u32fs>(); }
+    }
+}
