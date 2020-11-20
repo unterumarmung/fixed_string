@@ -55,19 +55,16 @@ struct basic_fixed_string
         return *this;
     }
 
-    [[nodiscard]] constexpr pointer data() noexcept { return _data.data(); }
-    [[nodiscard]] constexpr const_pointer data() const noexcept { return _data.data(); }
-
     // iterators
-    [[nodiscard]] constexpr iterator begin() noexcept { return _data.begin(); }
+    [[nodiscard]] constexpr iterator       begin() noexcept { return _data.begin(); }
     [[nodiscard]] constexpr const_iterator begin() const noexcept { return _data.begin(); }
-    [[nodiscard]] constexpr iterator end() noexcept { return _data.end(); }
+    [[nodiscard]] constexpr iterator       end() noexcept { return _data.end(); }
     [[nodiscard]] constexpr const_iterator end() const noexcept { return _data.end(); }
     [[nodiscard]] constexpr const_iterator cbegin() const noexcept { return _data.cbegin(); }
     [[nodiscard]] constexpr const_iterator cend() const noexcept { return _data.cend(); }
-    [[nodiscard]] constexpr iterator rbegin() noexcept { return _data.rbegin(); }
+    [[nodiscard]] constexpr iterator       rbegin() noexcept { return _data.rbegin(); }
     [[nodiscard]] constexpr const_iterator rbegin() const noexcept { return _data.rbegin(); }
-    [[nodiscard]] constexpr iterator rend() noexcept { return _data.rend(); }
+    [[nodiscard]] constexpr iterator       rend() noexcept { return _data.rend(); }
     [[nodiscard]] constexpr const_iterator rend() const noexcept { return _data.rend(); }
     [[nodiscard]] constexpr const_iterator crbegin() const noexcept { return _data.crbegin(); }
     [[nodiscard]] constexpr const_iterator crend() const noexcept { return _data.crend(); }
@@ -76,7 +73,17 @@ struct basic_fixed_string
     [[nodiscard]] constexpr size_type size() const noexcept { return N; }
     [[nodiscard]] constexpr size_type length() const noexcept { return N; }
     [[nodiscard]] constexpr size_type max_size() const noexcept { return N; }
-    [[nodiscard]] constexpr bool empty() const noexcept { return N == 0; }
+    [[nodiscard]] constexpr bool      empty() const noexcept { return N == 0; }
+
+    // element access
+    constexpr reference       operator[](size_type n) { return _data[n]; }
+    constexpr const_reference operator[](size_type n) const { return _data[n]; }
+    constexpr reference       at(size_type n) { return _data.at(n); }
+    constexpr const_reference at(size_type n) const { return _data.at(n); }
+    constexpr reference       front() { return _data.front(); }
+    constexpr const_reference front() const { return _data.front(); }
+    constexpr reference       back() { return _data.back(); }
+    constexpr const_reference back() const { return _data.back(); }
 };
 
 template <size_t N>
