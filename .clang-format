@@ -1,3 +1,4 @@
 BasedOnStyle: Microsoft
 AllowShortFunctionsOnASingleLine: All
 AlwaysBreakTemplateDeclarations: Yes
+AlignConsecutiveDeclarations: true
