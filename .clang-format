@@ -2,3 +2,5 @@ BasedOnStyle: Microsoft
 AllowShortFunctionsOnASingleLine: All
 AlwaysBreakTemplateDeclarations: Yes
 AlignConsecutiveDeclarations: true
+PointerAlignment: Left
+ColumnLimit: 165
