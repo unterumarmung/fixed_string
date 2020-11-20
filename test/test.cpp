@@ -59,7 +59,7 @@ void check()
 {
     using char_t = typename T::value_type;
     constexpr char literal[] = "Hello, world!!!";
-    char_t converted_literal[std::size(literal)]{};
+    char_t         converted_literal[std::size(literal)]{};
     utils::convert_literal(literal, converted_literal);
     T str(converted_literal);
     REQUIRE(std::equal(str.begin(), str.end(), std::begin(converted_literal)));
@@ -73,7 +73,7 @@ void check()
 {
     using char_t = typename T::value_type;
     constexpr char literal[] = "Hello, world!!!";
-    char_t converted_literal[std::size(literal)]{};
+    char_t         converted_literal[std::size(literal)]{};
     utils::convert_literal(literal, converted_literal);
     T str(converted_literal);
     T str2(str);
@@ -132,7 +132,7 @@ void check()
 {
     using char_t = typename T::value_type;
     constexpr char literal[] = "Hello, world!!!";
-    char_t converted_literal[std::size(literal)]{};
+    char_t         converted_literal[std::size(literal)]{};
     utils::convert_literal(literal, converted_literal);
 
     T str;
@@ -148,7 +148,7 @@ void check()
 {
     using char_t = typename T::value_type;
     constexpr char literal[] = "Hello, world!!!";
-    char_t converted_literal[std::size(literal)]{};
+    char_t         converted_literal[std::size(literal)]{};
     utils::convert_literal(literal, converted_literal);
     T str2 = converted_literal;
 
@@ -268,7 +268,7 @@ TEST_CASE("Capacity members")
         SECTION("fixed_u16string") { check<u16fs>(); }
         SECTION("fixed_u32string") { check<u32fs>(); }
     }
-    SECTION("length")
+    SECTION("empty")
     {
         using namespace empty;
         SECTION("fixed_string") { check<fixed_string>(); }
