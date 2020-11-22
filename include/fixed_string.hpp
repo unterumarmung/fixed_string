@@ -6,6 +6,7 @@
 #include <string_view>
 
 #define FIXSTR_CPP20_CHAR8T_PRESENT __cpp_char8_t
+#define FIXSTR_CPP20_SPACESHIP_OPERATOR_PRESENT __cpp_lib_three_way_comparison
 
 namespace fixstr
 {
@@ -171,6 +172,149 @@ struct basic_fixed_string
   private:
     constexpr string_view_type sv() { return *this; }
 };
+
+template <typename TChar, typename TTraits, size_t M1, size_t M2>
+[[nodiscard]] constexpr bool operator==(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
+{
+    if constexpr (M1 != M2)
+        return false;
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) == rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr bool operator==(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) == rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr bool operator==(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+    using sv_type = typename decltype(rhs)::string_view_type;
+    return lhs == static_cast<sv_type>(rhs);
+}
+
+#if FIXSTR_CPP20_SPACESHIP_OPERATOR_PRESENT
+
+template <typename TChar, typename TTraits, size_t M1, size_t M2>
+[[nodiscard]] constexpr auto operator<=>(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
+{
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) <=> rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr auto operator<=>(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) <=> rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr auto operator<=>(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+    using sv_type = typename decltype(rhs)::string_view_type;
+    return lhs <=> static_cast<sv_type>(rhs);
+}
+
+#else
+
+template <typename TChar, typename TTraits, size_t M1, size_t M2>
+[[nodiscard]] constexpr bool operator!=(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
+{
+    if constexpr (M1 != M2)
+        return true;
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) != rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr bool operator!=(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) != rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr bool operator!=(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+    using sv_type = typename decltype(rhs)::string_view_type;
+    return lhs != static_cast<sv_type>(rhs);
+}
+
+template <typename TChar, typename TTraits, size_t M1, size_t M2>
+[[nodiscard]] constexpr bool operator<(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
+{
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) < rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr bool operator<(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) < rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr bool operator<(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+    using sv_type = typename decltype(rhs)::string_view_type;
+    return lhs < static_cast<sv_type>(rhs);
+}
+
+template <typename TChar, typename TTraits, size_t M1, size_t M2>
+[[nodiscard]] constexpr bool operator<=(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
+{
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) <= rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr bool operator<=(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) <= rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr bool operator<=(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+    using sv_type = typename decltype(rhs)::string_view_type;
+    return lhs <= static_cast<sv_type>(rhs);
+}
+
+template <typename TChar, typename TTraits, size_t M1, size_t M2>
+[[nodiscard]] constexpr bool operator>(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
+{
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) > rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr bool operator>(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) > rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr bool operator>(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+    using sv_type = typename decltype(rhs)::string_view_type;
+    return lhs > static_cast<sv_type>(rhs);
+}
+
+template <typename TChar, typename TTraits, size_t M1, size_t M2>
+[[nodiscard]] constexpr bool operator>=(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
+{
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) >= rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr bool operator>=(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+    using sv_type = typename decltype(lhs)::string_view_type;
+    return static_cast<sv_type>(lhs) >= rhs;
+}
+
+template <typename TChar, typename TTraits, size_t N>
+[[nodiscard]] constexpr bool operator>=(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+    using sv_type = typename decltype(rhs)::string_view_type;
+    return lhs >= static_cast<sv_type>(rhs);
+}
+
+#endif // FIXSTR_CPP20_SPACESHIP_OPERATOR_PRESENT
 
 template <size_t N>
 using fixed_string = basic_fixed_string<char, N>;
