@@ -169,6 +169,31 @@ struct basic_fixed_string
     [[nodiscard]] constexpr size_type find_last_not_of(const value_type* s, size_type pos = npos) const { return sv().find_last_not_of(s, pos); }
     [[nodiscard]] constexpr size_type find_last_not_of(value_type c, size_type pos = npos) const noexcept { return sv().find_last_not_of(c, pos); }
 
+    [[nodiscard]] constexpr int compare(string_view_type v) const noexcept { return sv().compare(v); }
+    [[nodiscard]] constexpr int compare(size_type pos1, size_type count1, string_view_type v) const { return sv().compare(pos1, count1, v); }
+    [[nodiscard]] constexpr int compare(size_type pos1, size_type count1, string_view_type v, size_type pos2, size_type count2) const
+    {
+        return sv().compare(pos1, count1, v, pos2, count2);
+    }
+    [[nodiscard]] constexpr int compare(const value_type* s) const { return sv().compare(s); }
+    [[nodiscard]] constexpr int compare(size_type pos1, size_type count1, const value_type* s) const { return sv().compare(pos1, count1, s); }
+    [[nodiscard]] constexpr int compare(size_type pos1, size_type count1, const value_type* s, size_type count2) const
+    {
+        return sv().compare(pos1, count1, s, count2);
+    }
+
+    [[nodiscard]] constexpr bool starts_with(string_view_type v) const noexcept { return sv().substr(0, v.size()) == v; }
+    [[nodiscard]] constexpr bool starts_with(char c) const noexcept { return !empty() && traits_type::eq(front(), c); }
+    [[nodiscard]] constexpr bool starts_with(const value_type* s) const noexcept { return starts_with(string_view_type(s)); }
+
+    [[nodiscard]] constexpr bool ends_with(string_view_type sv) const noexcept { return size() >= sv.size() && compare(size() - sv.size(), npos, sv) == 0; }
+    [[nodiscard]] constexpr bool ends_with(value_type c) const noexcept { return !empty() && traits_type::eq(back(), c); }
+    [[nodiscard]] constexpr bool ends_with(const value_type* s) const { return ends_with(string_view_type(s)); }
+
+    [[nodiscard]] constexpr bool contains(string_view_type sv) const noexcept { return find(sv) != npos; }
+    [[nodiscard]] constexpr bool contains(value_type c) const noexcept { return find(c) != npos; }
+    [[nodiscard]] constexpr bool contains(const value_type* s) const { return find(s) != npos; }
+
   private:
     constexpr string_view_type sv() { return *this; }
 };
@@ -183,13 +208,15 @@ template <typename TChar, typename TTraits, size_t M1, size_t M2>
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr bool operator==(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+[[nodiscard]] constexpr bool operator==(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
+{
     using sv_type = typename decltype(lhs)::string_view_type;
     return static_cast<sv_type>(lhs) == rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr bool operator==(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+[[nodiscard]] constexpr bool operator==(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
+{
     using sv_type = typename decltype(rhs)::string_view_type;
     return lhs == static_cast<sv_type>(rhs);
 }
@@ -204,13 +231,15 @@ template <typename TChar, typename TTraits, size_t M1, size_t M2>
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr auto operator<=>(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+[[nodiscard]] constexpr auto operator<=>(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
+{
     using sv_type = typename decltype(lhs)::string_view_type;
     return static_cast<sv_type>(lhs) <=> rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr auto operator<=>(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+[[nodiscard]] constexpr auto operator<=>(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
+{
     using sv_type = typename decltype(rhs)::string_view_type;
     return lhs <=> static_cast<sv_type>(rhs);
 }
@@ -227,13 +256,15 @@ template <typename TChar, typename TTraits, size_t M1, size_t M2>
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr bool operator!=(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+[[nodiscard]] constexpr bool operator!=(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
+{
     using sv_type = typename decltype(lhs)::string_view_type;
     return static_cast<sv_type>(lhs) != rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr bool operator!=(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+[[nodiscard]] constexpr bool operator!=(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
+{
     using sv_type = typename decltype(rhs)::string_view_type;
     return lhs != static_cast<sv_type>(rhs);
 }
@@ -246,13 +277,15 @@ template <typename TChar, typename TTraits, size_t M1, size_t M2>
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr bool operator<(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+[[nodiscard]] constexpr bool operator<(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
+{
     using sv_type = typename decltype(lhs)::string_view_type;
     return static_cast<sv_type>(lhs) < rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr bool operator<(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+[[nodiscard]] constexpr bool operator<(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
+{
     using sv_type = typename decltype(rhs)::string_view_type;
     return lhs < static_cast<sv_type>(rhs);
 }
@@ -265,13 +298,15 @@ template <typename TChar, typename TTraits, size_t M1, size_t M2>
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr bool operator<=(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+[[nodiscard]] constexpr bool operator<=(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
+{
     using sv_type = typename decltype(lhs)::string_view_type;
     return static_cast<sv_type>(lhs) <= rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr bool operator<=(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+[[nodiscard]] constexpr bool operator<=(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
+{
     using sv_type = typename decltype(rhs)::string_view_type;
     return lhs <= static_cast<sv_type>(rhs);
 }
@@ -284,13 +319,15 @@ template <typename TChar, typename TTraits, size_t M1, size_t M2>
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr bool operator>(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+[[nodiscard]] constexpr bool operator>(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
+{
     using sv_type = typename decltype(lhs)::string_view_type;
     return static_cast<sv_type>(lhs) > rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr bool operator>(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+[[nodiscard]] constexpr bool operator>(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
+{
     using sv_type = typename decltype(rhs)::string_view_type;
     return lhs > static_cast<sv_type>(rhs);
 }
@@ -303,13 +340,15 @@ template <typename TChar, typename TTraits, size_t M1, size_t M2>
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr bool operator>=(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs) {
+[[nodiscard]] constexpr bool operator>=(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
+{
     using sv_type = typename decltype(lhs)::string_view_type;
     return static_cast<sv_type>(lhs) >= rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
-[[nodiscard]] constexpr bool operator>=(std::basic_string_view<TChar, TTraits> lhs,  const basic_fixed_string<TChar, N, TTraits>& rhs) {
+[[nodiscard]] constexpr bool operator>=(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
+{
     using sv_type = typename decltype(rhs)::string_view_type;
     return lhs >= static_cast<sv_type>(rhs);
 }
