@@ -203,21 +203,24 @@ template <typename TChar, typename TTraits, size_t M1, size_t M2>
 {
     if constexpr (M1 != M2)
         return false;
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) == rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr bool operator==(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
 {
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) == rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr bool operator==(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
 {
-    using sv_type = typename decltype(rhs)::string_view_type;
+    using rhs_type = std::decay_t<decltype(rhs)>;
+    using sv_type = typename rhs_type::string_view_type;
     return lhs == static_cast<sv_type>(rhs);
 }
 
@@ -226,21 +229,24 @@ template <typename TChar, typename TTraits, size_t N>
 template <typename TChar, typename TTraits, size_t M1, size_t M2>
 [[nodiscard]] constexpr auto operator<=>(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
 {
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) <=> rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr auto operator<=>(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
 {
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) <=> rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr auto operator<=>(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
 {
-    using sv_type = typename decltype(rhs)::string_view_type;
+    using rhs_type = std::decay_t<decltype(rhs)>;
+    using sv_type = typename rhs_type::string_view_type;
     return lhs <=> static_cast<sv_type>(rhs);
 }
 
@@ -251,105 +257,120 @@ template <typename TChar, typename TTraits, size_t M1, size_t M2>
 {
     if constexpr (M1 != M2)
         return true;
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) != rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr bool operator!=(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
 {
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) != rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr bool operator!=(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
 {
-    using sv_type = typename decltype(rhs)::string_view_type;
+    using rhs_type = std::decay_t<decltype(rhs)>;
+    using sv_type = typename rhs_type::string_view_type;
     return lhs != static_cast<sv_type>(rhs);
 }
 
 template <typename TChar, typename TTraits, size_t M1, size_t M2>
 [[nodiscard]] constexpr bool operator<(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
 {
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) < rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr bool operator<(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
 {
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) < rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr bool operator<(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
 {
-    using sv_type = typename decltype(rhs)::string_view_type;
+    using rhs_type = std::decay_t<decltype(rhs)>;
+    using sv_type = typename rhs_type::string_view_type;
     return lhs < static_cast<sv_type>(rhs);
 }
 
 template <typename TChar, typename TTraits, size_t M1, size_t M2>
 [[nodiscard]] constexpr bool operator<=(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
 {
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) <= rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr bool operator<=(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
 {
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) <= rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr bool operator<=(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
 {
-    using sv_type = typename decltype(rhs)::string_view_type;
+    using rhs_type = std::decay_t<decltype(rhs)>;
+    using sv_type = typename rhs_type::string_view_type;
     return lhs <= static_cast<sv_type>(rhs);
 }
 
 template <typename TChar, typename TTraits, size_t M1, size_t M2>
 [[nodiscard]] constexpr bool operator>(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
 {
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) > rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr bool operator>(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
 {
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) > rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr bool operator>(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
 {
-    using sv_type = typename decltype(rhs)::string_view_type;
+    using rhs_type = std::decay_t<decltype(rhs)>;
+    using sv_type = typename rhs_type::string_view_type;
     return lhs > static_cast<sv_type>(rhs);
 }
 
 template <typename TChar, typename TTraits, size_t M1, size_t M2>
 [[nodiscard]] constexpr bool operator>=(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
 {
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) >= rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr bool operator>=(const basic_fixed_string<TChar, N, TTraits>& lhs, std::basic_string_view<TChar, TTraits> rhs)
 {
-    using sv_type = typename decltype(lhs)::string_view_type;
+    using lhs_type = std::decay_t<decltype(lhs)>;
+    using sv_type = typename lhs_type::string_view_type;
     return static_cast<sv_type>(lhs) >= rhs;
 }
 
 template <typename TChar, typename TTraits, size_t N>
 [[nodiscard]] constexpr bool operator>=(std::basic_string_view<TChar, TTraits> lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
 {
-    using sv_type = typename decltype(rhs)::string_view_type;
+    using rhs_type = std::decay_t<decltype(rhs)>;
+    using sv_type = typename rhs_type::string_view_type;
     return lhs >= static_cast<sv_type>(rhs);
 }
 
