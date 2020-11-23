@@ -8,8 +8,41 @@
 #define FIXSTR_CPP20_CHAR8T_PRESENT __cpp_char8_t
 #define FIXSTR_CPP20_SPACESHIP_OPERATOR_PRESENT __cpp_lib_three_way_comparison
 
+#define FIXSTR_CPP20_CONSTEXPR_ALGORITHMS_PRESENT (__cpp_lib_constexpr_algorithms)
+
 namespace fixstr
 {
+
+namespace details
+{
+template <typename InputIterator, typename OutputIterator>
+constexpr OutputIterator copy(InputIterator first, InputIterator last, OutputIterator d_first)
+{
+#if FIXSTR_CPP20_CONSTEXPR_ALGORITHMS_PRESENT
+    return std::copy(first, last, d_first);
+#else
+    while (first != last)
+    {
+        *d_first++ = *first++;
+    }
+    return d_first;
+#endif // FIXSTR_CPP20_CONSTEXPR_ALGORITHMS_PRESENT
+}
+
+template <typename ForwardIterator, typename T>
+constexpr void fill(ForwardIterator first, ForwardIterator last, const T& value)
+{
+#if FIXSTR_CPP20_CONSTEXPR_ALGORITHMS_PRESENT
+    std::fill(first, last, value);
+#else
+    for (; first != last; ++first)
+    {
+        *first = value;
+    }
+#endif // FIXSTR_CPP20_CONSTEXPR_ALGORITHMS_PRESENT
+}
+
+} // namespace details
 
 template <typename TChar, std::size_t N, typename TTraits = std::char_traits<TChar>>
 struct basic_fixed_string
