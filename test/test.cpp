@@ -22,7 +22,7 @@ namespace utils
 template <typename T>
 constexpr auto equals(T value)
 {
-    return [v = std::move(value)](const T &a) { return a == v; };
+    return [v = std::move(value)](const T& a) { return a == v; };
 }
 
 template <typename T, std::size_t N>
@@ -34,8 +34,7 @@ using literal_ref = array_ref<const char, N>;
 template <typename TDestination, std::size_t N>
 void convert_literal(literal_ref<N> from, array_ref<TDestination, N> to)
 {
-    std::transform(std::begin(from), std::end(from), std::begin(to),
-                   [](const auto a) { return static_cast<TDestination>(a); });
+    std::transform(std::begin(from), std::end(from), std::begin(to), [](const auto a) { return static_cast<TDestination>(a); });
 }
 
 } // namespace utils
@@ -281,28 +280,116 @@ TEST_CASE("Capacity members")
     }
 }
 
-namespace string_operations { // NOLINT(modernize-concat-nested-namespaces)
-namespace sv_conversion {
+namespace sv_conversion
+{
 template <typename T>
 void check()
 {
-    T str;
+    T                            str;
     typename T::string_view_type sv = str;
     REQUIRE(sv.data() == str.data());
     REQUIRE(sv.size() == str.size());
 }
 } // namespace sv_conversion
-} // namespace string_operations
 
-TEST_CASE("String operations")
+TEST_CASE("std::string_view conversion")
 {
-    using namespace string_operations;
-    SECTION("std::string_view conversion") {
-        using namespace sv_conversion;
+    using namespace sv_conversion;
+    SECTION("fixed_string") { check<fs>(); }
+    SECTION("fixed_wstring") { check<wfs>(); }
+#if FIXSTR_CPP20_CHAR8T_PRESENT
+    SECTION("fixed_u8string") { check<u8fs>(); }
+#endif // FIXSTR_CPP20_CHAR8T_PRESENT
+    SECTION("fixed_u16string") { check<u16fs>(); }
+    SECTION("fixed_u32string") { check<u32fs>(); }
+}
+
+namespace substr
+{
+namespace pos_equals_size
+{
+template <typename T>
+void check()
+{
+    using char_t = typename T::value_type;
+    constexpr char literal[] = "Hello, world!!!";
+    char_t         converted_literal[std::size(literal)]{};
+    utils::convert_literal(literal, converted_literal);
+
+    T    str(converted_literal);
+    auto substr = str.template substr<str.size()>();
+    REQUIRE(substr.empty());
+}
+} // namespace pos_equals_size
+
+namespace default_parameters {
+template <typename T>
+void check()
+{
+    using char_t = typename T::value_type;
+    constexpr char literal[] = "Hello, world!!!";
+    char_t         converted_literal[std::size(literal)]{};
+    utils::convert_literal(literal, converted_literal);
+
+    T    str(converted_literal);
+    auto substr = str.template substr<>();
+    REQUIRE(substr == str);
+}
+} // namespace default_parameters
+
+namespace middle
+{
+template <typename T>
+void check()
+{
+    using char_t = typename T::value_type;
+    constexpr char literal[] = "Hello, world!!!";
+    char_t         converted_literal[std::size(literal)]{};
+    utils::convert_literal(literal, converted_literal);
+
+    constexpr auto pos = 2;
+    constexpr auto count = 3;
+
+    T    str(converted_literal);
+    auto fs_substr = str.template substr<pos, count>();
+    auto sv_substr = static_cast<typename T::string_view_type>(str).substr(pos, count);
+    REQUIRE(fs_substr == sv_substr);
+}
+} // namespace middle
+} // namespace substr
+
+TEST_CASE("substr")
+{
+    using namespace substr;
+    SECTION("should be empty if pos equals size")
+    {
+        using namespace pos_equals_size;
+        SECTION("fixed_string") { check<fs>(); }
+        SECTION("fixed_wstring") { check<wfs>(); }
+#if FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u8string") { check<u8fs>(); }
+#endif // FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u16string") { check<u16fs>(); }
+        SECTION("fixed_u32string") { check<u32fs>(); }
+    }
+    SECTION("should copy whole string with default parameters")
+    {
+        using namespace default_parameters;
         SECTION("fixed_string") { check<fs>(); }
         SECTION("fixed_wstring") { check<wfs>(); }
 #if FIXSTR_CPP20_CHAR8T_PRESENT
             SECTION("fixed_u8string") { check<u8fs>(); }
+#endif // FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u16string") { check<u16fs>(); }
+        SECTION("fixed_u32string") { check<u32fs>(); }
+    }
+    SECTION("substring in middle")
+    {
+        using namespace middle;
+        SECTION("fixed_string") { check<fs>(); }
+        SECTION("fixed_wstring") { check<wfs>(); }
+#if FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u8string") { check<u8fs>(); }
 #endif // FIXSTR_CPP20_CHAR8T_PRESENT
         SECTION("fixed_u16string") { check<u16fs>(); }
         SECTION("fixed_u32string") { check<u32fs>(); }

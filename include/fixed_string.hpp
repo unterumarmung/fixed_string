@@ -121,6 +121,20 @@ struct basic_fixed_string
     template <size_t M>
     using same_with_other_size = basic_fixed_string<value_type, M, traits_type>;
 
+    template <size_type pos, size_type count, size_type size>
+    constexpr static size_type calculate_substr_size()
+    {
+        if constexpr (pos >= size)
+            return 0;
+
+        constexpr size_type rcount = std::min(count, size - pos);
+
+        return rcount;
+    }
+
+    template <size_type pos, size_type count>
+    using substr_result_type = same_with_other_size<calculate_substr_size<pos, count, N>()>;
+
   public:
     // string operations
     [[nodiscard]] constexpr pointer       data() noexcept { return _data.data(); }
@@ -128,6 +142,16 @@ struct basic_fixed_string
     [[nodiscard]] constexpr               operator string_view_type() const noexcept // NOLINT(google-explicit-constructor)
     {
         return {data(), N};
+    }
+
+    template <size_type pos = 0, size_type count = npos>
+    [[nodiscard]] constexpr substr_result_type<pos, count> substr()
+    {
+        static_assert(pos <= N, "pos cannot be larger than size!");
+        constexpr size_type rcount = calculate_substr_size<pos, count, N>();
+        substr_result_type<pos, count> result;
+        details::copy(begin() + pos, begin() + pos + rcount, result.begin());
+        return result;
     }
 
     template <size_t M>
