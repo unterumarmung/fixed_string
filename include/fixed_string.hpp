@@ -3,6 +3,7 @@
 
 #include <array>
 #include <iterator>
+#include <ostream>
 #include <string_view>
 
 #define FIXSTR_CPP20_CHAR8T_PRESENT __cpp_char8_t
@@ -93,11 +94,11 @@ struct basic_fixed_string
         details::copy(std::begin(array), std::end(array), _data.begin());
     }
 
-    constexpr basic_fixed_string(basic_fixed_string const& other) noexcept { details::copy(other.begin(), other.end(), _data.begin()); }
+    constexpr basic_fixed_string(basic_fixed_string const& other) noexcept { details::copy(other._data.begin(), other._data.end(), _data.begin()); }
 
     constexpr basic_fixed_string& operator=(const basic_fixed_string& other) noexcept
     {
-        details::copy(other.begin(), other.end(), _data.begin());
+        details::copy(other._data.begin(), other._data.end(), _data.begin());
         return *this;
     }
 
@@ -168,7 +169,7 @@ struct basic_fixed_string
     [[nodiscard]] constexpr substr_result_type<pos, count> substr()
     {
         static_assert(pos <= N, "pos cannot be larger than size!");
-        constexpr size_type rcount = calculate_substr_size<pos, count, N>();
+        constexpr size_type            rcount = calculate_substr_size<pos, count, N>();
         substr_result_type<pos, count> result;
         details::copy(begin() + pos, begin() + pos + rcount, result.begin());
         return result;
