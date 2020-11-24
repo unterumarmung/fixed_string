@@ -6,6 +6,10 @@
 #include <ostream>
 #include <string_view>
 
+#define FIXSTR_VERSION_MAJOR 0
+#define FIXSTR_VERSION_MINOR 1
+#define FIXSTR_VERSION_PATCH 0
+
 #define FIXSTR_CPP20_CHAR8T_PRESENT __cpp_char8_t
 #define FIXSTR_CPP20_SPACESHIP_OPERATOR_PRESENT __cpp_lib_three_way_comparison
 
