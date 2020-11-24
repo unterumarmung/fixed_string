@@ -37,6 +37,14 @@ void convert_literal(literal_ref<N> from, array_ref<TDestination, N> to)
     std::transform(std::begin(from), std::end(from), std::begin(to), [](const auto a) { return static_cast<TDestination>(a); });
 }
 
+template <typename TDestination, std::size_t N>
+basic_fixed_string<TDestination, N - 1> to_fs(literal_ref<N> from)
+{
+    basic_fixed_string<TDestination, N - 1> to;
+    std::transform(std::begin(from), std::end(from), std::begin(to), [](const auto a) { return static_cast<TDestination>(a); });
+    return to;
+}
+
 } // namespace utils
 
 namespace construction
@@ -394,4 +402,40 @@ TEST_CASE("substr")
         SECTION("fixed_u16string") { check<u16fs>(); }
         SECTION("fixed_u32string") { check<u32fs>(); }
     }
+}namespace plus
+{
+template <template <std::size_t> class T>
+void check()
+{
+    using char_t = typename T<0>::value_type;
+    using sv_t = typename T<0>::string_view_type;
+
+    utils::literal_ref<3> lhs = "Hi";
+    utils::literal_ref<6> rhs = "Hello";
+
+    const auto lhs_fs = utils::to_fs<char_t>(lhs);
+    const auto rhs_fs = utils::to_fs<char_t>(rhs);
+    const auto fs_res = lhs_fs + rhs_fs;
+
+    std::basic_string lhs_std = lhs_fs.data();
+    std::basic_string rhs_std = rhs_fs.data();
+    const auto        std_res = lhs_std + rhs_std;
+
+    REQUIRE(static_cast<sv_t>(fs_res) == std_res);
+
+    const auto ch = static_cast<char_t>('A');
+    REQUIRE(static_cast<sv_t>(lhs_fs + ch) == (lhs_std + ch));
+}
+} // namespace plus
+
+TEST_CASE("operator+")
+{
+    using namespace plus;
+    SECTION("fixed_string") { check<fixed_string>(); }
+    SECTION("fixed_wstring") { check<fixed_wstring>(); }
+#if FIXSTR_CPP20_CHAR8T_PRESENT
+    SECTION("fixed_u8string") { check<fixed_u8string>(); }
+#endif // FIXSTR_CPP20_CHAR8T_PRESENT
+    SECTION("fixed_u16string") { check<fixed_u16string>(); }
+    SECTION("fixed_u32string") { check<fixed_u32string>(); }
 }
