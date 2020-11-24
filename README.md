@@ -33,7 +33,7 @@ constexpr fixed_string second = "World!";
 static_assert(first == second); // false
 static_assert(first != second); // true
 static_assert(first < second);  // true
-static_assert(first <= second); // false
+static_assert(first <= second); // true
 static_assert(first > second);  // false 
 static_assert(first >= second); // false
 static_assert(first <=> second != 0); // true
