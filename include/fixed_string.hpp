@@ -24,7 +24,7 @@
 
 #if FIXSTR_GCC_VERSION >= 100'000 && FIXSTR_CPP_VERSION > 201703L
 #define FIXSTR_CPP20_CNTTP_PRESENT 1
-#elseif __cpp_nontype_template_args >= 201911
+#elif __cpp_nontype_template_args >= 201911
 #define FIXSTR_CPP20_CNTTP_PRESENT 1
 #else
 // Other compilers do not support cNTTP just yet
