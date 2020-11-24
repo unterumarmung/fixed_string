@@ -90,16 +90,16 @@ struct basic_fixed_string
     // iterators
     [[nodiscard]] constexpr iterator       begin() noexcept { return _data.begin(); }
     [[nodiscard]] constexpr const_iterator begin() const noexcept { return _data.begin(); }
-    [[nodiscard]] constexpr iterator       end() noexcept { return _data.end(); }
-    [[nodiscard]] constexpr const_iterator end() const noexcept { return _data.end(); }
+    [[nodiscard]] constexpr iterator       end() noexcept { return _data.end() - 1; }
+    [[nodiscard]] constexpr const_iterator end() const noexcept { return _data.end() - 1; }
     [[nodiscard]] constexpr const_iterator cbegin() const noexcept { return _data.cbegin(); }
-    [[nodiscard]] constexpr const_iterator cend() const noexcept { return _data.cend(); }
-    [[nodiscard]] constexpr iterator       rbegin() noexcept { return _data.rbegin(); }
-    [[nodiscard]] constexpr const_iterator rbegin() const noexcept { return _data.rbegin(); }
+    [[nodiscard]] constexpr const_iterator cend() const noexcept { return _data.cend() - 1; }
+    [[nodiscard]] constexpr iterator       rbegin() noexcept { return _data.rbegin() + 1; }
+    [[nodiscard]] constexpr const_iterator rbegin() const noexcept { return _data.rbegin() + 1; }
     [[nodiscard]] constexpr iterator       rend() noexcept { return _data.rend(); }
     [[nodiscard]] constexpr const_iterator rend() const noexcept { return _data.rend(); }
-    [[nodiscard]] constexpr const_iterator crbegin() const noexcept { return _data.crbegin(); }
-    [[nodiscard]] constexpr const_iterator crend() const noexcept { return _data.crend(); }
+    [[nodiscard]] constexpr const_iterator crbegin() const noexcept { return _data.crbegin() + 1; }
+    [[nodiscard]] constexpr const_iterator crend() const noexcept { return _data.crend() + 1; }
 
     // capacity
     [[nodiscard]] constexpr size_type size() const noexcept { return N; }
