@@ -443,3 +443,22 @@ TEST_CASE("operator+")
     SECTION("fixed_u16string") { check<fixed_u16string>(); }
     SECTION("fixed_u32string") { check<fixed_u32string>(); }
 }
+
+#if FIXSTR_CPP20_CNTTP_PRESENT
+
+namespace cnttp
+{
+template <fixed_string v1, fixed_string v2>
+void check()
+{
+    static_assert(v1 == v2);
+}
+} // namespace cnttp
+
+TEST_CASE("Class non-type template parameters")
+{
+    using namespace cnttp;
+    check<"Hi", "Hi">();
+}
+
+#endif // FIXSTR_CPP20_CNTTP_PRESENT
