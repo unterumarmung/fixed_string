@@ -478,6 +478,52 @@ struct fixed_wstring : basic_fixed_string<wchar_t, N>
 template <std::size_t N>
 fixed_wstring(const wchar_t (&)[N]) -> fixed_wstring<N - 1>;
 
+template <typename TChar, size_t N, size_t M, typename TTraits>
+constexpr basic_fixed_string<TChar, N + M, TTraits> operator+(const basic_fixed_string<TChar, N, TTraits>& lhs, const basic_fixed_string<TChar, M, TTraits>& rhs)
+{
+    basic_fixed_string<TChar, N + M, TTraits> result;
+    details::copy(lhs.begin(), lhs.end(), result.begin());
+    details::copy(rhs.begin(), rhs.end(), result.begin() + N);
+    return result;
+}
+
+template <typename TChar, size_t N, size_t M, typename TTraits>
+constexpr basic_fixed_string<TChar, N - 1 + M, TTraits> operator+(const TChar (&lhs)[N], const basic_fixed_string<TChar, M, TTraits>& rhs)
+{
+    basic_fixed_string lhs2 = lhs;
+    return lhs2 + rhs;
+}
+
+template <typename TChar, size_t N, size_t M, typename TTraits>
+constexpr basic_fixed_string<TChar, N + M - 1, TTraits> operator+(const basic_fixed_string<TChar, N, TTraits>& lhs, const TChar (&rhs)[M])
+{
+    basic_fixed_string rhs2 = rhs;
+    return lhs + rhs2;
+}
+
+namespace details
+{
+template <typename TChar>
+constexpr basic_fixed_string<TChar, 1> from_char(TChar ch)
+{
+    basic_fixed_string<TChar, 1> fs;
+    fs[0] = ch;
+    return fs;
+}
+} // namespace details
+
+template <typename TChar, size_t N, typename TTraits>
+constexpr basic_fixed_string<TChar, N + 1, TTraits> operator+(TChar lhs, const basic_fixed_string<TChar, N, TTraits>& rhs)
+{
+    return details::from_char(lhs) + rhs;
+}
+
+template <typename TChar, size_t N, typename TTraits>
+constexpr basic_fixed_string<TChar, N + 1, TTraits> operator+(const basic_fixed_string<TChar, N, TTraits>& lhs, TChar rhs)
+{
+    return lhs + details::from_char(rhs);
+}
+
 } // namespace fixstr
 
 #endif // FIXED_STRING_HPP
