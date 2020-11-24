@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <catch.hpp>
+#include <string>
 
 #include "fixed_string.hpp"
 
@@ -330,7 +331,8 @@ void check()
 }
 } // namespace pos_equals_size
 
-namespace default_parameters {
+namespace default_parameters
+{
 template <typename T>
 void check()
 {
@@ -386,7 +388,7 @@ TEST_CASE("substr")
         SECTION("fixed_string") { check<fs>(); }
         SECTION("fixed_wstring") { check<wfs>(); }
 #if FIXSTR_CPP20_CHAR8T_PRESENT
-            SECTION("fixed_u8string") { check<u8fs>(); }
+        SECTION("fixed_u8string") { check<u8fs>(); }
 #endif // FIXSTR_CPP20_CHAR8T_PRESENT
         SECTION("fixed_u16string") { check<u16fs>(); }
         SECTION("fixed_u32string") { check<u32fs>(); }
@@ -402,7 +404,9 @@ TEST_CASE("substr")
         SECTION("fixed_u16string") { check<u16fs>(); }
         SECTION("fixed_u32string") { check<u32fs>(); }
     }
-}namespace plus
+}
+
+namespace plus
 {
 template <template <std::size_t> class T>
 void check()
