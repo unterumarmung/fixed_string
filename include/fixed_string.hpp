@@ -524,6 +524,13 @@ constexpr basic_fixed_string<TChar, N + 1, TTraits> operator+(const basic_fixed_
     return lhs + details::from_char(rhs);
 }
 
+template <typename TChar, size_t N, typename TTraits>
+std::basic_ostream<TChar, TTraits>& operator<<(std::basic_ostream<TChar, TTraits>& out, const basic_fixed_string<TChar, N, TTraits>& str)
+{
+    out << str.data();
+    return out;
+}
+
 } // namespace fixstr
 
 #endif // FIXED_STRING_HPP
