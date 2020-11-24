@@ -10,6 +10,26 @@
 
 #define FIXSTR_CPP20_CONSTEXPR_ALGORITHMS_PRESENT (__cpp_lib_constexpr_algorithms)
 
+#ifdef _MSC_VER
+#define FIXSTR_CPP_VERSION _MSVC_LANG
+#else
+#define FIXSTR_CPP_VERSION __cplusplus
+#endif
+
+// Note that when ICC or Clang is in use, FIXSTR_GCC_VERSION might not fully match the actual GCC version on the system.
+#define FIXSTR_GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+// According to clang documentation, version can be vendor specific
+#define FIXSTR_CLANG_VERSION (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
+
+#if FIXSTR_GCC_VERSION >= 100'000 && FIXSTR_CPP_VERSION > 201703L
+#define FIXSTR_CPP20_CNTTP_PRESENT 1
+#elseif __cpp_nontype_template_args >= 201911
+#define FIXSTR_CPP20_CNTTP_PRESENT 1
+#else
+// Other compilers do not support cNTTP just yet
+#define FIXSTR_CPP20_CNTTP_PRESENT 0
+#endif // FIXSTR_CPP20_CNTTP_PRESENT
+
 namespace fixstr
 {
 
