@@ -58,6 +58,8 @@ Since it's a header only library, you need just copy `fixed_string.hpp` to your 
 
 If you are using [vcpkg](https://github.com/Microsoft/vcpkg/) on your project for external dependencies, then you can use the [**fixed-string** package](https://github.com/microsoft/vcpkg/tree/master/ports/fixed-string).
 
+If you are using Conan on your project for external dependencies, then you can use the Conan recipe located in the root of the repository.
+
 ## Compiler compatibility
 * GCC >= 7.3
 * Clang >= 5
