@@ -32,7 +32,7 @@
 
 #define FIXSTR_VERSION_MAJOR 0
 #define FIXSTR_VERSION_MINOR 1
-#define FIXSTR_VERSION_PATCH 0
+#define FIXSTR_VERSION_PATCH 1
 
 #define FIXSTR_CPP20_CHAR8T_PRESENT __cpp_char8_t
 #define FIXSTR_CPP20_SPACESHIP_OPERATOR_PRESENT __cpp_lib_three_way_comparison
@@ -53,6 +53,8 @@
 #if FIXSTR_GCC_VERSION >= 100'000 && FIXSTR_CPP_VERSION > 201703L
 #define FIXSTR_CPP20_CNTTP_PRESENT 1
 #elif __cpp_nontype_template_args >= 201911
+#define FIXSTR_CPP20_CNTTP_PRESENT 1
+#elif __cpp_nontype_template_parameter_class >= 201806
 #define FIXSTR_CPP20_CNTTP_PRESENT 1
 #else
 // Other compilers do not support cNTTP just yet

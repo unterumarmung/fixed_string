@@ -66,4 +66,4 @@ If you are using Conan on your project for external dependencies, then you can u
 * ICC >= 19.0.1
 * MSVC >= 14.28 / Visual Studio 2019 (I don't have access to older VS versions right now, so it can work on older versions too)
 
-**Using `basic_fixed_string` as class non-type template parameter full available in GCC >= 10**
+**Using `basic_fixed_string` as class non-type template parameter full available in GCC >= 10 and VS 2019 16.9 or newer**
