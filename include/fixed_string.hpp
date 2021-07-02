@@ -54,6 +54,8 @@
 #define FIXSTR_CPP20_CNTTP_PRESENT 1
 #elif __cpp_nontype_template_args >= 201911
 #define FIXSTR_CPP20_CNTTP_PRESENT 1
+#elif __cpp_nontype_template_parameter_class >= 201806
+#define FIXSTR_CPP20_CNTTP_PRESENT 1
 #else
 // Other compilers do not support cNTTP just yet
 #define FIXSTR_CPP20_CNTTP_PRESENT 0
