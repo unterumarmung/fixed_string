@@ -600,65 +600,60 @@ namespace std
 template <size_t N>
 struct hash<fixstr::fixed_string<N>>
 {
-    hash() = default;
-    hash(const hash&) = default;
-    ~hash() = default;
-    size_t operator()(const fixstr::fixed_string<N>& str) const
+    using argument_type = fixstr::fixed_string<N>;
+    size_t operator()(const argument_type& str) const
     {
-        using sv_t = typename decltype(str)::string_view_type;
+        using sv_t = typename argument_type::string_view_type;
         return std::hash<sv_t>()(static_cast<sv_t>(str));
     }
 };
+
 #if FIXSTR_CPP20_CHAR8T_PRESENT
 template <size_t N>
 struct hash<fixstr::fixed_u8string<N>>
 {
-    hash() = default;
-    hash(const hash&) = default;
-    ~hash() = default;
-    size_t operator()(const fixstr::fixed_u8string<N>& str) const
+    using argument_type = fixstr::fixed_u8string<N>;
+    size_t operator()(const argument_type& str) const
     {
-        using sv_t = typename decltype(str)::string_view_type;
+        using sv_t = typename argument_type::string_view_type;
         return std::hash<sv_t>()(static_cast<sv_t>(str));
     }
 };
 #endif
+
 template <size_t N>
 struct hash<fixstr::fixed_u16string<N>>
 {
-    hash() = default;
-    hash(const hash&) = default;
-    ~hash() = default;
-    size_t operator()(const fixstr::fixed_u16string<N>& str) const
+    using argument_type = fixstr::fixed_u16string<N>;
+    size_t operator()(const argument_type& str) const
     {
-        using sv_t = typename decltype(str)::string_view_type;
+        using sv_t = typename argument_type::string_view_type;
         return std::hash<sv_t>()(static_cast<sv_t>(str));
     }
 };
+
 template <size_t N>
 struct hash<fixstr::fixed_u32string<N>>
 {
-    hash() = default;
-    hash(const hash&) = default;
-    ~hash() = default;
-    size_t operator()(const fixstr::fixed_u32string<N>& str) const
+    using argument_type = fixstr::fixed_u32string<N>;
+    size_t operator()(const argument_type& str) const
     {
-        using sv_t = typename decltype(str)::string_view_type;
+        using sv_t = typename argument_type::string_view_type;
         return std::hash<sv_t>()(static_cast<sv_t>(str));
     }
 };
+
 template <size_t N>
 struct hash<fixstr::fixed_wstring<N>>
 {
-    hash() = default;
-    hash(const hash&) = default;
-    ~hash() = default;
-    size_t operator()(const fixstr::fixed_wstring<N>& str) const
+    using argument_type = fixstr::fixed_wstring<N>;
+    size_t operator()(const argument_type& str) const
     {
-        using sv_t = typename decltype(str)::string_view_type;
+        using sv_t = typename argument_type::string_view_type;
         return std::hash<sv_t>()(static_cast<sv_t>(str));
     }
 };
+
 } // namespace std
 
 #endif // FIXED_STRING_HPP
