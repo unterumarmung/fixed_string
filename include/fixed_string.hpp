@@ -26,6 +26,7 @@
 #define FIXED_STRING_HPP
 
 #include <array>
+#include <functional>
 #include <iterator>
 #include <ostream>
 #include <string_view>
@@ -303,9 +304,7 @@ struct basic_fixed_string
     [[nodiscard]] constexpr bool contains(value_type c) const noexcept { return find(c) != npos; }
     [[nodiscard]] constexpr bool contains(const value_type* s) const { return find(s) != npos; }
 
-    void swap(basic_fixed_string& other) noexcept(std::is_nothrow_swappable_v<storage_type>) {
-        _data.swap(other._data);
-    }
+    void swap(basic_fixed_string& other) noexcept(std::is_nothrow_swappable_v<storage_type>) { _data.swap(other._data); }
 
   private:
     constexpr string_view_type sv() { return *this; }
@@ -594,5 +593,67 @@ std::basic_ostream<TChar, TTraits>& operator<<(std::basic_ostream<TChar, TTraits
 }
 
 } // namespace fixstr
+
+// hash support
+namespace std
+{
+template <size_t N>
+struct hash<fixstr::fixed_string<N>>
+{
+    using argument_type = fixstr::fixed_string<N>;
+    size_t operator()(const argument_type& str) const
+    {
+        using sv_t = typename argument_type::string_view_type;
+        return std::hash<sv_t>()(static_cast<sv_t>(str));
+    }
+};
+
+#if FIXSTR_CPP20_CHAR8T_PRESENT
+template <size_t N>
+struct hash<fixstr::fixed_u8string<N>>
+{
+    using argument_type = fixstr::fixed_u8string<N>;
+    size_t operator()(const argument_type& str) const
+    {
+        using sv_t = typename argument_type::string_view_type;
+        return std::hash<sv_t>()(static_cast<sv_t>(str));
+    }
+};
+#endif
+
+template <size_t N>
+struct hash<fixstr::fixed_u16string<N>>
+{
+    using argument_type = fixstr::fixed_u16string<N>;
+    size_t operator()(const argument_type& str) const
+    {
+        using sv_t = typename argument_type::string_view_type;
+        return std::hash<sv_t>()(static_cast<sv_t>(str));
+    }
+};
+
+template <size_t N>
+struct hash<fixstr::fixed_u32string<N>>
+{
+    using argument_type = fixstr::fixed_u32string<N>;
+    size_t operator()(const argument_type& str) const
+    {
+        using sv_t = typename argument_type::string_view_type;
+        return std::hash<sv_t>()(static_cast<sv_t>(str));
+    }
+};
+
+template <size_t N>
+struct hash<fixstr::fixed_wstring<N>>
+{
+    using argument_type = fixstr::fixed_wstring<N>;
+    size_t operator()(const argument_type& str) const
+    {
+        using sv_t = typename argument_type::string_view_type;
+        return std::hash<sv_t>()(static_cast<sv_t>(str));
+    }
+};
+
+} // namespace std
 
 #endif // FIXED_STRING_HPP
