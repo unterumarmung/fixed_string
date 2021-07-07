@@ -579,7 +579,6 @@ namespace hash_support
 template <template <std::size_t> class T>
 void check()
 {
-    using char_t = typename T<0>::value_type;
     using sv_t = typename T<0>::string_view_type;
     constexpr utils::literal_ref<6> literal = "Hello";
     constexpr auto                  fixed_str = utils::to_fs_2<T>(literal);
