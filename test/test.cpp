@@ -69,17 +69,24 @@ constexpr OutputIt transform(InputIt first1, InputIt last1, OutputIt d_first, Un
 template <typename TDestination, std::size_t N>
 void convert_literal(literal_ref<N> from, array_ref<TDestination, N> to)
 {
-    transform(std::begin(from), std::end(from), std::begin(to), [](const auto a) { return static_cast<TDestination>(a); });
+    utils::transform(std::begin(from), std::end(from), std::begin(to), [](const auto a) { return static_cast<TDestination>(a); });
 }
 
 template <typename TDestination, std::size_t N>
 constexpr basic_fixed_string<TDestination, N - 1> to_fs(literal_ref<N> from)
 {
     basic_fixed_string<TDestination, N - 1> to;
-    transform(std::begin(from), std::end(from), std::begin(to), [](const auto a) { return static_cast<TDestination>(a); });
+    utils::transform(std::begin(from), std::end(from), std::begin(to), [](const auto a) { return static_cast<TDestination>(a); });
     return to;
 }
 
+template <template <size_t> class T, std::size_t N>
+constexpr T<N - 1> to_fs_2(literal_ref<N> from)
+{
+    T<N - 1> to;
+    utils::transform(std::begin(from), std::end(from), std::begin(to), [](const auto a) { return static_cast<typename T<0>::value_type>(a); });
+    return to;
+}
 } // namespace utils
 
 namespace construction
@@ -575,9 +582,9 @@ void check()
     using char_t = typename T<0>::value_type;
     using sv_t = typename T<0>::string_view_type;
     constexpr utils::literal_ref<6> literal = "Hello";
-    constexpr auto                  fixed_str = utils::to_fs<char_t>(literal);
+    constexpr auto                  fixed_str = utils::to_fs_2<T>(literal);
 
-    const auto fixed_str_hash = std::hash<basic_fixed_string<char_t, fixed_str.size()>>()(fixed_str);
+    const auto fixed_str_hash = std::hash<T<fixed_str.size()>>()(fixed_str);
     const auto string_view_hash = std::hash<sv_t>()(static_cast<sv_t>(fixed_str));
     REQUIRE(string_view_hash == fixed_str_hash);
 }
@@ -586,7 +593,6 @@ void check()
 TEST_CASE("hash support")
 {
     using namespace hash_support;
-
     SECTION("fixed_string") { check<fixed_string>(); }
     SECTION("fixed_wstring") { check<fixed_wstring>(); }
 #if FIXSTR_CPP20_CHAR8T_PRESENT
