@@ -486,3 +486,73 @@ TEST_CASE("Class non-type template parameters")
 }
 
 #endif // FIXSTR_CPP20_CNTTP_PRESENT
+
+namespace swapping
+{
+namespace member
+{
+template <template <std::size_t> class T>
+void check()
+{
+    using char_t = typename T<0>::value_type;
+
+    utils::literal_ref<6> lhs = "World";
+    utils::literal_ref<6> rhs = "Hello";
+
+    auto lhs_fs = utils::to_fs<char_t>(lhs);
+    auto rhs_fs = utils::to_fs<char_t>(rhs);
+
+    lhs_fs.swap(rhs_fs);
+
+    REQUIRE(rhs_fs == utils::to_fs<char_t>(lhs));
+    REQUIRE(lhs_fs == utils::to_fs<char_t>(rhs));
+}
+} // namespace member
+
+namespace free
+{
+template <template <std::size_t> class T>
+void check()
+{
+    using char_t = typename T<0>::value_type;
+
+    utils::literal_ref<6> lhs = "World";
+    utils::literal_ref<6> rhs = "Hello";
+
+    auto lhs_fs = utils::to_fs<char_t>(lhs);
+    auto rhs_fs = utils::to_fs<char_t>(rhs);
+
+    swap(lhs_fs, rhs_fs);
+
+    REQUIRE(rhs_fs == utils::to_fs<char_t>(lhs));
+    REQUIRE(lhs_fs == utils::to_fs<char_t>(rhs));
+}
+} // namespace free
+} // namespace swapping
+
+TEST_CASE("swap")
+{
+    using namespace swapping;
+    SECTION("member")
+    {
+        using namespace member;
+        SECTION("fixed_string") { check<fixed_string>(); }
+        SECTION("fixed_wstring") { check<fixed_wstring>(); }
+#if FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u8string") { check<fixed_u8string>(); }
+#endif // FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u16string") { check<fixed_u16string>(); }
+        SECTION("fixed_u32string") { check<fixed_u32string>(); }
+    }
+    SECTION("free")
+    {
+        using namespace free;
+        SECTION("fixed_string") { check<fixed_string>(); }
+        SECTION("fixed_wstring") { check<fixed_wstring>(); }
+#if FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u8string") { check<fixed_u8string>(); }
+#endif // FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u16string") { check<fixed_u16string>(); }
+        SECTION("fixed_u32string") { check<fixed_u32string>(); }
+    }
+}
