@@ -45,7 +45,7 @@
 #define FIXSTR_CPP_VERSION _MSVC_LANG
 #else
 #define FIXSTR_CPP_VERSION __cplusplus
-#endif
+#endif // _MSC_VER
 
 // Note that when ICC or Clang is in use, FIXSTR_GCC_VERSION might not fully match the actual GCC version on the system.
 #define FIXSTR_GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
@@ -497,6 +497,9 @@ template <typename TChar, typename TTraits, size_t N>
 template <typename TChar, size_t N>
 basic_fixed_string(const TChar (&)[N]) -> basic_fixed_string<TChar, N - 1>;
 
+// Early GCC versions that support cNTTP were not able to deduce size_t parameter
+// of basic_fixed_string when fixed_string and other typedef were just type aliases.
+// That's why the following code is written in this way.
 template <size_t N>
 struct fixed_string : basic_fixed_string<char, N>
 {
@@ -619,7 +622,7 @@ struct hash<fixstr::fixed_u8string<N>>
         return std::hash<sv_t>()(static_cast<sv_t>(str));
     }
 };
-#endif
+#endif // FIXSTR_CPP20_CHAR8T_PRESENT
 
 template <size_t N>
 struct hash<fixstr::fixed_u16string<N>>
