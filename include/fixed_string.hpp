@@ -29,6 +29,7 @@
 #include <iterator>
 #include <ostream>
 #include <string_view>
+#include <type_traits>
 
 #define FIXSTR_VERSION_MAJOR 0
 #define FIXSTR_VERSION_MINOR 1
@@ -302,9 +303,19 @@ struct basic_fixed_string
     [[nodiscard]] constexpr bool contains(value_type c) const noexcept { return find(c) != npos; }
     [[nodiscard]] constexpr bool contains(const value_type* s) const { return find(s) != npos; }
 
+    void swap(basic_fixed_string& other) noexcept(std::is_nothrow_swappable_v<storage_type>) {
+        _data.swap(other._data);
+    }
+
   private:
     constexpr string_view_type sv() { return *this; }
 };
+
+template <typename TChar, typename TTraits, size_t N>
+void swap(basic_fixed_string<TChar, N, TTraits>& lhs, basic_fixed_string<TChar, N, TTraits>& rhs) noexcept(noexcept(lhs.swap(rhs)))
+{
+    lhs.swap(rhs);
+}
 
 template <typename TChar, typename TTraits, size_t M1, size_t M2>
 [[nodiscard]] constexpr bool operator==(const basic_fixed_string<TChar, M1, TTraits>& lhs, const basic_fixed_string<TChar, M2, TTraits>& rhs)
