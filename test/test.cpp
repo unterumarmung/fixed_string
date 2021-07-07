@@ -56,17 +56,27 @@ using array_ref = T (&)[N];
 template <std::size_t N>
 using literal_ref = array_ref<const char, N>;
 
-template <typename TDestination, std::size_t N>
-void convert_literal(literal_ref<N> from, array_ref<TDestination, N> to)
+template <class InputIt, class OutputIt, class UnaryOperation>
+constexpr OutputIt transform(InputIt first1, InputIt last1, OutputIt d_first, UnaryOperation unary_op)
 {
-    std::transform(std::begin(from), std::end(from), std::begin(to), [](const auto a) { return static_cast<TDestination>(a); });
+    while (first1 != last1)
+    {
+        *d_first++ = unary_op(*first1++);
+    }
+    return d_first;
 }
 
 template <typename TDestination, std::size_t N>
-basic_fixed_string<TDestination, N - 1> to_fs(literal_ref<N> from)
+void convert_literal(literal_ref<N> from, array_ref<TDestination, N> to)
+{
+    transform(std::begin(from), std::end(from), std::begin(to), [](const auto a) { return static_cast<TDestination>(a); });
+}
+
+template <typename TDestination, std::size_t N>
+constexpr basic_fixed_string<TDestination, N - 1> to_fs(literal_ref<N> from)
 {
     basic_fixed_string<TDestination, N - 1> to;
-    std::transform(std::begin(from), std::end(from), std::begin(to), [](const auto a) { return static_cast<TDestination>(a); });
+    transform(std::begin(from), std::end(from), std::begin(to), [](const auto a) { return static_cast<TDestination>(a); });
     return to;
 }
 
@@ -555,4 +565,33 @@ TEST_CASE("swap")
         SECTION("fixed_u16string") { check<fixed_u16string>(); }
         SECTION("fixed_u32string") { check<fixed_u32string>(); }
     }
+}
+
+namespace hash_support
+{
+template <template <std::size_t> class T>
+void check()
+{
+    using char_t = typename T<0>::value_type;
+    using sv_t = typename T<0>::string_view_type;
+    constexpr utils::literal_ref<6> literal = "Hello";
+    constexpr auto                  fixed_str = utils::to_fs<char_t>(literal);
+
+    const auto fixed_str_hash = std::hash<basic_fixed_string<char_t, fixed_str.size()>>()(fixed_str);
+    const auto string_view_hash = std::hash<sv_t>()(static_cast<sv_t>(fixed_str));
+    REQUIRE(string_view_hash == fixed_str_hash);
+}
+} // namespace hash_support
+
+TEST_CASE("hash support")
+{
+    using namespace hash_support;
+
+    SECTION("fixed_string") { check<fixed_string>(); }
+    SECTION("fixed_wstring") { check<fixed_wstring>(); }
+#if FIXSTR_CPP20_CHAR8T_PRESENT
+    SECTION("fixed_u8string") { check<fixed_u8string>(); }
+#endif // FIXSTR_CPP20_CHAR8T_PRESENT
+    SECTION("fixed_u16string") { check<fixed_u16string>(); }
+    SECTION("fixed_u32string") { check<fixed_u32string>(); }
 }
