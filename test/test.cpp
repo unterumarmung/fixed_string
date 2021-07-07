@@ -516,7 +516,6 @@ template <template <std::size_t> class T>
 void check()
 {
     using char_t = typename T<0>::value_type;
-    using sv_t = typename T<0>::string_view_type;
 
     utils::literal_ref<6> lhs = "World";
     utils::literal_ref<6> rhs = "Hello";
