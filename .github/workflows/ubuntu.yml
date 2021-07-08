@@ -1,6 +1,12 @@
 name: ubuntu
 
-on: [push, pull_request]
+on:
+  pull_request:
+    paths-ignore: 
+      - 'documentation/**'
+  push:
+    paths-ignore: 
+      - 'documentation/**'
 
 jobs:
   ubuntu:
