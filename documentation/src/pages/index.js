@@ -7,6 +7,10 @@ import styles from './index.module.css';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
+  const introButtonStyles = {
+    marginRight: '5px'
+  }
+
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
@@ -15,8 +19,14 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/about">
-            Docusaurus Tutorial - 5min ⏱️
+            to="/docs/about"
+            style={introButtonStyles}>
+            Introduction
+          </Link>
+          <Link
+            className="button button--secondary button--lg"
+            to="/docs/api/basic_fixed_string">
+            API Reference
           </Link>
         </div>
       </div>
