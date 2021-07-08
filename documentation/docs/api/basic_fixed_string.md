@@ -55,3 +55,11 @@ In actual implementation, these are not the type aliases. Unfortunately, early G
 | `size_type`              | `size_t`                                                                                                                  |
 | `difference_type`        | `ptrdiff_t`                                                                                                               |
 | `string_view_type`       | `std::basic_string_view<value_type, traits_type>`                                                                         |
+
+### Member functions
+
+#### Constructors and assignment
+
+| Name                                             | Description                       |
+| ------------------------------------------------ | --------------------------------- |
+| [(constructor)](./member-functions/constructors) | Constructs a `basic_fixed_string` |
