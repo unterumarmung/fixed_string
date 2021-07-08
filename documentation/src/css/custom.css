@@ -38,7 +38,7 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   height: 100%;
 }
 
-.codeBlockContainer_node_modules-\@docusaurus-theme-classic-lib-next-theme-CodeBlock-styles-module {
+.cpp_overload_code>div[class^="codeBlockContainer"] {
   margin-bottom: 0px !important;
 }
 
