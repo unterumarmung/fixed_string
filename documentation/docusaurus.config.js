@@ -6,7 +6,7 @@ module.exports = {
   title: 'fixed_string',
   tagline: 'C++17 fixed-size string class',
   url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  baseUrl: '/fixed_string/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
