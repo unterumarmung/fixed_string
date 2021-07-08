@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <Layout
       description="Description will go into a meta tag in <head />">
-      <main>
+      <main className="main">
         <HomepageHeader />
       </main>
     </Layout>
