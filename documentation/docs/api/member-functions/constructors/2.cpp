@@ -1,0 +1,1 @@
+constexpr basic_fixed_string(basic_fixed_string const& other) noexcept;
