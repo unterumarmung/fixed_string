@@ -4,9 +4,11 @@ on:
   pull_request:
     paths-ignore: 
       - 'documentation/**'
+      - '.github/workflows/documentation.yml'
   push:
     paths-ignore: 
       - 'documentation/**'
+      - '.github/workflows/documentation.yml'
 
 jobs:
   build:
