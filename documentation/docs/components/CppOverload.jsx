@@ -1,27 +1,43 @@
 import React from 'react';
 import CodeBlock from '@theme/CodeBlock';
+import Heading from '@theme/Heading';
 
 export const Highlight = ({ children, color }) => (
     <span
         style={{
             backgroundColor: color,
-            borderRadius: '2px',
+            borderRadius: '5px',
             color: '#fff',
-            padding: '0.2rem',
+            padding: '0.3rem',
         }}>
         {children}
     </span>
 );
 
-const cppBlockStyles = {
-    marginBottom: '0px !important'
+const tableRowStyles = {
+    borderTop: '1px !important',
+    borderBottom: '1px !important',
+    backgroundColor: 'inherit'
 }
 
+const tableCellStyles = {
+    borderRight: '0px',
+    borderLeft: '0px',
+    borderBottom: '1px !important',
+    verticalAlign: 'center',
+}
+
+const numberStyle = {
+    marginBottom: 0
+}
+
+const NumberComponent = Heading('h6');
+
 export default function CppOverload({ num, code, standard }) {
-    return <tr>
-        <td><h6>{num}</h6></td>
-        <td><CodeBlock styles={cppBlockStyles} className="language-cpp">{code}</CodeBlock></td>
-        <td>{standard && <Highlight color="#00a550">{"since C++" + standard}</Highlight>}</td>
+    return <tr style={tableRowStyles}>
+        <td style={tableCellStyles}><NumberComponent id={'overload' + num} style={numberStyle}>{num}</NumberComponent></td>
+        <td style={tableCellStyles}><CodeBlock className="language-cpp">{code}</CodeBlock></td>
+        <td style={tableCellStyles}>{standard && <Highlight color="#00a550">{"since C++" + standard}</Highlight>}</td>
     </tr>
 }
 
