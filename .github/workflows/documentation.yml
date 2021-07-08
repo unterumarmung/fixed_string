@@ -47,6 +47,8 @@ jobs:
         run: |
           git config --global user.email "umarmungenfuerimmer@gmail.com"
           git config --global user.name "Daniil Dudkin"
+          git subtree push --prefix documentation origin gh-pages
+          git checkout gh-pages
           if [ -e yarn.lock ]; then
           yarn install --frozen-lockfile
           elif [ -e package-lock.json ]; then
