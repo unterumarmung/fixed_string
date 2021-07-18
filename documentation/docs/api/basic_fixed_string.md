@@ -60,6 +60,7 @@ In actual implementation, these are not the type aliases. Unfortunately, early G
 
 #### Constructors and assignment
 
-| Name                                             | Description                       |
-| ------------------------------------------------ | --------------------------------- |
-| [(constructor)](./member-functions/constructors) | Constructs a `basic_fixed_string` |
+| Name                                              | Description                       |
+| ------------------------------------------------- | --------------------------------- |
+| [(constructor)](./member-functions/constructors)  | Constructs a `basic_fixed_string` |
+| [`operator=`](./member-functions/operator-assign) | assigns values to the string      |
