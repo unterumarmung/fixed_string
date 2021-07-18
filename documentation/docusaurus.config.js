@@ -5,7 +5,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 module.exports = {
   title: 'fixed_string',
   tagline: 'C++17 fixed-size string class',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://unterumarmung.github.io/fixed_string/',
   baseUrl: '/fixed_string/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -16,7 +16,7 @@ module.exports = {
     navbar: {
       title: 'fixed_string',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'fixed_string logo',
         src: 'img/logo.svg',
       },
       items: [
@@ -49,7 +49,7 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+            'https://github.com/unterumarmung/fixed_string/edit/add-documentation/documentation/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
