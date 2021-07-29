@@ -71,3 +71,4 @@ In actual implementation, these are not the type aliases. Unfortunately, early G
 | ---------------------------------------------- | --------------------------------------------- |
 | [`operator[]`](./member-functions/operator-at) | access specified element                      |
 | [`at`](./member-functions/at)                  | access specified element with bounds checking |
+| [`front`](./member-functions/front)            | accesses the first character                  |

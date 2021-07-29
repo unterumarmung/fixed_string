@@ -1,0 +1,1 @@
+[[nodiscard]] constexpr reference front();
