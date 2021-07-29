@@ -60,12 +60,14 @@ In actual implementation, these are not the type aliases. Unfortunately, early G
 
 #### Constructors and assignment
 
-| Name                                              | Description                       |
-| ------------------------------------------------- | --------------------------------- |
-| [(constructor)](./member-functions/constructors)  | Constructs a `basic_fixed_string` |
-| [`operator=`](./member-functions/operator-assign) | assigns values to the string      |
+| Name                                               | Description                       |
+| -------------------------------------------------- | --------------------------------- |
+| [*(constructor)*](./member-functions/constructors) | Constructs a `basic_fixed_string` |
+| [`operator=`](./member-functions/operator-assign)  | assigns values to the string      |
 
 #### Element access
-| Name                          | Description                                   |
-| ----------------------------- | --------------------------------------------- |
-| [(at)](./member-functions/at) | access specified element with bounds checking |
+
+| Name                                           | Description                                   |
+| ---------------------------------------------- | --------------------------------------------- |
+| [`operator[]`](./member-functions/operator-at) | access specified element                      |
+| [`at`](./member-functions/at)                  | access specified element with bounds checking |
