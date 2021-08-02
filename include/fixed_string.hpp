@@ -154,21 +154,44 @@ struct basic_fixed_string
     [[nodiscard]] constexpr const_iterator crbegin() const noexcept { return _data.crbegin() + 1; }
     [[nodiscard]] constexpr const_iterator crend() const noexcept { return _data.crend() + 1; }
 
+  private:
+    [[nodiscard]] constexpr static bool static_empty() noexcept { return N == 0; }
+
+  public:
     // capacity
     [[nodiscard]] constexpr size_type size() const noexcept { return N; }
     [[nodiscard]] constexpr size_type length() const noexcept { return N; }
     [[nodiscard]] constexpr size_type max_size() const noexcept { return N; }
-    [[nodiscard]] constexpr bool      empty() const noexcept { return N == 0; }
+    [[nodiscard]] constexpr bool      empty() const noexcept { return static_empty(); }
 
     // element access
     [[nodiscard]] constexpr reference       operator[](size_type n) { return _data[n]; }
     [[nodiscard]] constexpr const_reference operator[](size_type n) const { return _data[n]; }
     [[nodiscard]] constexpr reference       at(size_type n) { return _data.at(n); }
     [[nodiscard]] constexpr const_reference at(size_type n) const { return _data.at(n); }
-    [[nodiscard]] constexpr reference       front() { return _data.front(); }
-    [[nodiscard]] constexpr const_reference front() const { return _data.front(); }
-    [[nodiscard]] constexpr reference       back() { return _data.back(); }
-    [[nodiscard]] constexpr const_reference back() const { return _data.back(); }
+
+    // The lack of C++20 concepts is disappointing
+    // Basically what every `template<...>` line means is `requires (!empty())`
+    template <typename..., bool NonEmpty = !static_empty(), typename = std::enable_if_t<NonEmpty>>
+    [[nodiscard]] constexpr reference front() noexcept
+    {
+        return _data.front();
+    }
+    template <typename..., bool NonEmpty = !static_empty(), typename = std::enable_if_t<NonEmpty>>
+    [[nodiscard]] constexpr const_reference front() const noexcept
+    {
+        return _data.front();
+    }
+    template <typename..., bool NonEmpty = !static_empty(), typename = std::enable_if_t<NonEmpty>>
+    [[nodiscard]] constexpr reference back() noexcept
+    {
+        return _data[size() - 1];
+    }
+    template <typename..., bool NonEmpty = !static_empty(), typename = std::enable_if_t<NonEmpty>>
+    [[nodiscard]] constexpr const_reference back() const noexcept
+    {
+        return _data[size() - 1];
+    }
 
   private:
     template <size_t M>

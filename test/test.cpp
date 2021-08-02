@@ -600,3 +600,108 @@ TEST_CASE("hash support")
     SECTION("fixed_u16string") { check<fixed_u16string>(); }
     SECTION("fixed_u32string") { check<fixed_u32string>(); }
 }
+
+namespace utils::traits
+{
+struct nonesuch
+{
+    ~nonesuch() = delete;
+    nonesuch(nonesuch const&) = delete;
+    void operator=(nonesuch const&) = delete;
+};
+namespace detail
+{
+template <class Default, class AlwaysVoid, template <class...> class Op, class... Args>
+struct detector
+{
+    using value_t = std::false_type;
+    using type = Default;
+};
+
+template <class Default, template <class...> class Op, class... Args>
+struct detector<Default, std::void_t<Op<Args...>>, Op, Args...>
+{
+    using value_t = std::true_type;
+    using type = Op<Args...>;
+};
+
+} // namespace detail
+
+template <template <class...> class Op, class... Args>
+using is_detected = typename detail::detector<nonesuch, void, Op, Args...>::value_t;
+} // namespace utils::traits
+
+namespace front_and_back
+{
+namespace logic
+{
+template <template <std::size_t> class T>
+void check()
+{
+    using char_t = typename T<0>::value_type;
+    using sv_t = typename T<0>::string_view_type;
+
+    utils::literal_ref<6> literal = "World";
+
+    const auto fs = utils::to_fs<char_t>(literal);
+
+    const auto sv = static_cast<sv_t>(fs);
+
+    REQUIRE(fs.front() == sv.front());
+    REQUIRE(fs.back() == sv.back());
+}
+} // namespace logic
+
+namespace overloads
+{
+template <typename T>
+using front_t = decltype(std::declval<T>().front());
+template <typename T>
+using back_t = decltype(std::declval<T>().back());
+
+template <template <std::size_t> class T>
+void check()
+{
+    using utils::traits::is_detected;
+
+    REQUIRE(!is_detected<front_t, T<0>>::value);
+    REQUIRE(!is_detected<front_t, const T<0>>::value);
+
+    REQUIRE(is_detected<front_t, T<1>>::value);
+    REQUIRE(is_detected<front_t, const T<1>>::value);
+
+    REQUIRE(!is_detected<back_t, T<0>>::value);
+    REQUIRE(!is_detected<back_t, const T<0>>::value);
+
+    REQUIRE(is_detected<back_t, T<1>>::value);
+    REQUIRE(is_detected<back_t, const T<1>>::value);
+}
+} // namespace overloads
+} // namespace front_and_back
+
+TEST_CASE("front and back")
+{
+    using namespace front_and_back;
+    SECTION("main logic")
+    {
+        using namespace logic;
+        SECTION("fixed_string") { check<fixed_string>(); }
+        SECTION("fixed_wstring") { check<fixed_wstring>(); }
+#if FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u8string") { check<fixed_u8string>(); }
+#endif // FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u16string") { check<fixed_u16string>(); }
+        SECTION("fixed_u32string") { check<fixed_u32string>(); }
+    }
+    SECTION("deleted overloads of front and back for size 0")
+    {
+        using namespace overloads;
+        SECTION("fixed_string") { check<fixed_string>(); }
+        SECTION("fixed_wstring") { check<fixed_wstring>(); }
+#if FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u8string") { check<fixed_u8string>(); }
+#endif // FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u16string") { check<fixed_u16string>(); }
+        SECTION("fixed_u32string") { check<fixed_u32string>(); }
+    }
+}
