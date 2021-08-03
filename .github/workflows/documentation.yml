@@ -2,11 +2,11 @@ name: documentation
 
 on:
   pull_request:
-    paths: 
+    paths:
       - 'documentation/**'
       - '.github/workflows/documentation.yml'
   push:
-    paths: 
+    paths:
       - 'documentation/**'
       - '.github/workflows/documentation.yml'
 
