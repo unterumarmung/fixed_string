@@ -1,0 +1,47 @@
+---
+sidebar_position: 6 
+sidebar_label: back
+---
+
+# `fixstr::basic_fixed_string::back`
+
+import Overload1 from '!!raw-loader!.//back/1.cpp'; 
+import Overload2 from '!!raw-loader!./back/2.cpp'; 
+import Example from '!!raw-loader!.//back/example.cpp'; 
+import CppOverload from '../../components/CppOverload'; 
+import CppOverloadList from '../../components/CppOverloadList'; 
+import LinkButton from '../../components/LinkButton'; 
+import CodeBlock from '@theme/CodeBlock';
+
+<CppOverloadList>
+    <CppOverload num={1} code={Overload1} />
+    <CppOverload num={2} code={Overload2} />
+</CppOverloadList>
+
+Returns reference to the last character in the string.
+
+The function is not provided for empty strings.
+
+:::info note
+Note that `requires` is used only in the documentation purposes. 
+In order to support C++17 the implementation uses SFINAE.
+:::
+
+## Return value
+
+Reference to the last element.
+
+## Complexity
+
+Constant.
+
+## Example
+
+<LinkButton link="https://godbolt.org/z/MoPbaoMv8">Run this code!</LinkButton>
+<CodeBlock className="language-cpp">{Example}</CodeBlock>
+Output:
+
+```
+Exemplars
+y
+```
