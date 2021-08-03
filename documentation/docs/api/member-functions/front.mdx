@@ -19,7 +19,12 @@ import CodeBlock from '@theme/CodeBlock';
 
 Returns reference to the first character in the string. 
 
-if `empty() == true`, a reference to the character with value `TChar()` (the null character) is returned.
+The function is not provided for empty strings.
+
+:::info note
+Note that `requires` is used only in the documentation purposes. 
+In order to support C++17 the implementation uses SFINAE.
+:::
 
 ## Return value
 
