@@ -73,3 +73,12 @@ In actual implementation, these are not the type aliases. Unfortunately, early G
 | [`at`](./member-functions/at)                  | access specified element with bounds checking |
 | [`front`](./member-functions/front)            | accesses the first character                  |
 | [`back`](./member-functions/back)              | accesses the last character                   |
+
+
+#### Capacity
+
+| Name                                             | Description                              |
+| ------------------------------------------------ | ---------------------------------------- |
+| [`empty`](./member-functions/empty)              | checks whether the fixed string is empty |
+| [`size` <br/> `length`](./member-functions/size) | returns the number of characters         |
+| [`max_size`](./member-functions/max_size)        | returns the maximum number of characters |

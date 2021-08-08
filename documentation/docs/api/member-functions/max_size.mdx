@@ -1,0 +1,41 @@
+---
+sidebar_position: 9
+sidebar_label: max_size
+---
+# `fixstr::basic_fixed_string::max_size`
+
+import Overload1 from '!!raw-loader!.//max_size/1.cpp';
+import Example from '!!raw-loader!.//max_size/example.cpp';
+import CppOverload from '../../components/CppOverload';
+import CppOverloadList from '../../components/CppOverloadList';
+import LinkButton from '../../components/LinkButton';
+import CodeBlock from '@theme/CodeBlock';
+
+<CppOverloadList>
+    <CppOverload num={1} code={Overload1} />
+</CppOverloadList>
+
+Returns the maximum number of elements the fixed string is able to hold due to system or library implementation limitations, i.e. `std::distance(begin(), end())` for the largest fixed string.
+
+:::info note
+Because each `fixstr::basic_fixed_string<TChar, N, TTraits>` is a fixed-size container, the value returned by `max_size` equals `N` (which is also the value returned by [`size`](./size));
+:::
+
+## Parameters
+(none)
+
+## Return value
+Maximum number of characters.
+
+## Complexity
+Constant.
+
+## Example
+
+<LinkButton link="https://godbolt.org/z/neYG44bTK">Run this code!</LinkButton>
+<CodeBlock className="language-cpp">{Example}</CodeBlock>
+Output:
+
+```
+Maximum size of the 'fixed_string' is 13
+```

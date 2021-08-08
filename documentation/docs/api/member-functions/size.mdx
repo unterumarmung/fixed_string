@@ -1,0 +1,38 @@
+---
+sidebar_position: 8
+sidebar_label: size & length
+---
+# `fixstr::basic_fixed_string::size` <br/> `fixstr::basic_fixed_string::length`
+
+import Overload1 from '!!raw-loader!.//size/1.cpp';
+import Overload2 from '!!raw-loader!./size/2.cpp';
+import Example from '!!raw-loader!.//size/example.cpp';
+import CppOverload from '../../components/CppOverload';
+import CppOverloadList from '../../components/CppOverloadList';
+import LinkButton from '../../components/LinkButton';
+import CodeBlock from '@theme/CodeBlock';
+
+<CppOverloadList>
+    <CppOverload num={1} code={Overload1} />
+    <CppOverload num={2} code={Overload2} />
+</CppOverloadList>
+
+Returns the number of `TChar` elements in the fixed string, i.e. `std::distance(begin(), end())`.
+
+:::info note
+For `fixstr::fixed_string`, the elements are bytes (objects of type `char`), which are not the same as characters if a multibyte encoding such as UTF-8 is used.
+:::
+
+## Parameters
+(none)
+
+## Return value
+The number of `TChar` elements in the fixed string.
+
+## Complexity
+Constant.
+
+## Example
+
+<LinkButton link="https://godbolt.org/z/qq1GK9fMq">Run this code!</LinkButton>
+<CodeBlock className="language-cpp">{Example}</CodeBlock>

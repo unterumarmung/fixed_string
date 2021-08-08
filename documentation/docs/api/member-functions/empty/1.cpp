@@ -1,0 +1,1 @@
+[[nodiscard]] constexpr bool empty() const noexcept;
