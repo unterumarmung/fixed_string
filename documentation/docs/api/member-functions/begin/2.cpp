@@ -1,0 +1,1 @@
+[[nodiscard]] constexpr const_iterator begin() const noexcept;

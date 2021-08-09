@@ -74,6 +74,14 @@ In actual implementation, these are not the type aliases. Unfortunately, early G
 | [`front`](./member-functions/front)            | accesses the first character                  |
 | [`back`](./member-functions/back)              | accesses the last character                   |
 
+#### Iterators
+
+| Name                                                  | Description                                 |
+| ----------------------------------------------------- | ------------------------------------------- |
+| [`begin` <br/> `cbegin`](./member-functions/begin)    | returns an iterator to the beginning        |
+| [`end` <br/> `cend`](./member-functions/end)          | returns an iterator to the end              |
+| [`rbegin` <br/> `crbegin`](./member-functions/rbegin) | returns a reverse iterator to the beginning |
+| [`rend` <br/> `crend`](./member-functions/rend)       | returns a reverse iterator to the end       |
 
 #### Capacity
 
