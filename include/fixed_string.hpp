@@ -148,7 +148,7 @@ struct basic_fixed_string
     [[nodiscard]] constexpr const_iterator         cbegin() const noexcept { return _data.cbegin(); }
     [[nodiscard]] constexpr const_iterator         cend() const noexcept { return _data.cend() - 1; }
     [[nodiscard]] constexpr reverse_iterator       rbegin() noexcept { return _data.rbegin() + 1; }
-    [[nodiscard]] constexpr const_iterator         rbegin() const noexcept { return _data.rbegin() + 1; }
+    [[nodiscard]] constexpr const_reverse_iterator rbegin() const noexcept { return _data.rbegin() + 1; }
     [[nodiscard]] constexpr reverse_iterator       rend() noexcept { return _data.rend(); }
     [[nodiscard]] constexpr const_reverse_iterator rend() const noexcept { return _data.rend(); }
     [[nodiscard]] constexpr const_reverse_iterator crbegin() const noexcept { return _data.crbegin() + 1; }
