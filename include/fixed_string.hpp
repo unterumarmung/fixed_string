@@ -152,7 +152,7 @@ struct basic_fixed_string
     [[nodiscard]] constexpr reverse_iterator       rend() noexcept { return _data.rend(); }
     [[nodiscard]] constexpr const_reverse_iterator rend() const noexcept { return _data.rend(); }
     [[nodiscard]] constexpr const_reverse_iterator crbegin() const noexcept { return _data.crbegin() + 1; }
-    [[nodiscard]] constexpr const_reverse_iterator crend() const noexcept { return _data.crend() + 1; }
+    [[nodiscard]] constexpr const_reverse_iterator crend() const noexcept { return _data.crend(); }
 
   private:
     [[nodiscard]] constexpr static bool static_empty() noexcept { return N == 0; }
