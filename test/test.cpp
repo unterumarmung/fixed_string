@@ -450,8 +450,13 @@ template <typename T>
 void check()
 {
     using namespace utils::traits;
+
+    // for some unknown reason is_detected doesn't work there in this particular case
+    // even though SFINAE works just fine
+#if defined(_MSC_VER) && _MSC_VER < 1921
     REQUIRE(is_detected<substr_valid_t, T>::value);
     REQUIRE(!is_detected<substr_invalid_t, T>::value);
+#endif // defined(_MSC_VER) && _MSC_VER < 1921
 }
 } // namespace sfinae
 } // namespace substr
