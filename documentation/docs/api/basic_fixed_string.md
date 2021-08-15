@@ -90,3 +90,10 @@ In actual implementation, these are not the type aliases. Unfortunately, early G
 | [`empty`](./member-functions/empty)              | checks whether the fixed string is empty |
 | [`size` <br/> `length`](./member-functions/size) | returns the number of characters         |
 | [`max_size`](./member-functions/max_size)        | returns the maximum number of characters |
+
+
+#### Operations
+
+| Name                                 | Description         |
+| ------------------------------------ | ------------------- |
+| [`empty`](./member-functions/substr) | returns a substring |

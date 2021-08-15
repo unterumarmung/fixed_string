@@ -1,0 +1,42 @@
+---
+sidebar_position: 14
+sidebar_label: substr
+---
+# `fixstr::basic_fixed_string::substr`
+
+import Overload1 from '!!raw-loader!.//substr/1.cpp';
+import Example from '!!raw-loader!.//substr/example.cpp';
+import CppOverload from '../../components/CppOverload';
+import CppOverloadList from '../../components/CppOverloadList';
+import LinkButton from '../../components/LinkButton';
+import CodeBlock from '@theme/CodeBlock';
+
+<CppOverloadList>
+    <CppOverload num={1} code={Overload1} />
+</CppOverloadList>
+
+Returns a substring `[pos, pos+count)`. 
+If the requested substring extends past the end of the string, i.e. the `count` is greater than `size() - pos` (e.g. if `count == npos`), 
+the returned substring is `[pos, size())`.
+
+:::info note
+Note that `requires` is used only in the documentation purposes. 
+In order to support C++17 the implementation uses SFINAE.
+:::
+
+## Parameters
+* `pos` - position of the first character to include
+* `count` - length of the substring
+
+## Return value
+
+String containing the substring `[pos, pos+count)` or `[pos, size())`.
+
+## Complexity
+
+Linear in `count`.
+
+## Example
+
+<LinkButton link="https://godbolt.org/z/svMnPhaE4">Run this code!</LinkButton>
+<CodeBlock className="language-cpp">{Example}</CodeBlock>
