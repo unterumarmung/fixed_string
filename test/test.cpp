@@ -456,6 +456,8 @@ void check()
 #if defined(_MSC_VER) && _MSC_VER > 1920 || !defined(_MSC_VER)
     REQUIRE(is_detected<substr_valid_t, T>::value);
     REQUIRE(!is_detected<substr_invalid_t, T>::value);
+    REQUIRE(is_detected<substr_valid_t, const T>::value);
+    REQUIRE(!is_detected<substr_invalid_t, const T>::value);
 #endif // defined(_MSC_VER) && _MSC_VER > 1920 || !defined(_MSC_VER)
 }
 } // namespace sfinae

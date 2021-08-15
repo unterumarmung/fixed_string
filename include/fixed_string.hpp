@@ -223,7 +223,7 @@ struct basic_fixed_string
     // clang-format off
     template <size_type pos = 0, size_type count = npos,
               typename..., bool IsPosInBounds = pos <= N, typename = std::enable_if_t<IsPosInBounds>>
-    [[nodiscard]] constexpr auto substr() noexcept
+    [[nodiscard]] constexpr auto substr() const noexcept
         -> substr_result_type<pos, count>
     // clang-format on
     {
