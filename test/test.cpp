@@ -354,6 +354,36 @@ TEST_CASE("std::string_view conversion")
     SECTION("fixed_u32string") { check<u32fs>(); }
 }
 
+namespace utils::traits
+{
+struct nonesuch
+{
+    ~nonesuch() = delete;
+    nonesuch(nonesuch const&) = delete;
+    void operator=(nonesuch const&) = delete;
+};
+namespace detail
+{
+template <class Default, class AlwaysVoid, template <class...> class Op, class... Args>
+struct detector
+{
+    using value_t = std::false_type;
+    using type = Default;
+};
+
+template <class Default, template <class...> class Op, class... Args>
+struct detector<Default, std::void_t<Op<Args...>>, Op, Args...>
+{
+    using value_t = std::true_type;
+    using type = Op<Args...>;
+};
+
+} // namespace detail
+
+template <template <class...> class Op, class... Args>
+using is_detected = typename detail::detector<nonesuch, void, Op, Args...>::value_t;
+} // namespace utils::traits
+
 namespace substr
 {
 namespace pos_equals_size
@@ -407,6 +437,30 @@ void check()
     REQUIRE(fs_substr == sv_substr);
 }
 } // namespace middle
+
+namespace sfinae
+{
+template <typename T>
+using substr_valid_t = decltype(std::declval<T>().template substr<T{}.size(), T::npos>());
+
+template <typename T>
+using substr_invalid_t = decltype(std::declval<T>().template substr<T{}.size() + 1, T::npos>());
+
+template <typename T>
+void check()
+{
+    using namespace utils::traits;
+
+    // for some unknown reason is_detected doesn't work on MSVC version 1920 or older
+    // in this particular case even though SFINAE works just fine
+#if defined(_MSC_VER) && _MSC_VER > 1920 || !defined(_MSC_VER)
+    REQUIRE(is_detected<substr_valid_t, T>::value);
+    REQUIRE(!is_detected<substr_invalid_t, T>::value);
+    REQUIRE(is_detected<substr_valid_t, const T>::value);
+    REQUIRE(!is_detected<substr_invalid_t, const T>::value);
+#endif // defined(_MSC_VER) && _MSC_VER > 1920 || !defined(_MSC_VER)
+}
+} // namespace sfinae
 } // namespace substr
 
 TEST_CASE("substr")
@@ -437,6 +491,17 @@ TEST_CASE("substr")
     SECTION("substring in middle")
     {
         using namespace middle;
+        SECTION("fixed_string") { check<fs>(); }
+        SECTION("fixed_wstring") { check<wfs>(); }
+#if FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u8string") { check<u8fs>(); }
+#endif // FIXSTR_CPP20_CHAR8T_PRESENT
+        SECTION("fixed_u16string") { check<u16fs>(); }
+        SECTION("fixed_u32string") { check<u32fs>(); }
+    }
+    SECTION("sfinae friendliness")
+    {
+        using namespace sfinae;
         SECTION("fixed_string") { check<fs>(); }
         SECTION("fixed_wstring") { check<wfs>(); }
 #if FIXSTR_CPP20_CHAR8T_PRESENT
@@ -600,36 +665,6 @@ TEST_CASE("hash support")
     SECTION("fixed_u16string") { check<fixed_u16string>(); }
     SECTION("fixed_u32string") { check<fixed_u32string>(); }
 }
-
-namespace utils::traits
-{
-struct nonesuch
-{
-    ~nonesuch() = delete;
-    nonesuch(nonesuch const&) = delete;
-    void operator=(nonesuch const&) = delete;
-};
-namespace detail
-{
-template <class Default, class AlwaysVoid, template <class...> class Op, class... Args>
-struct detector
-{
-    using value_t = std::false_type;
-    using type = Default;
-};
-
-template <class Default, template <class...> class Op, class... Args>
-struct detector<Default, std::void_t<Op<Args...>>, Op, Args...>
-{
-    using value_t = std::true_type;
-    using type = Op<Args...>;
-};
-
-} // namespace detail
-
-template <template <class...> class Op, class... Args>
-using is_detected = typename detail::detector<nonesuch, void, Op, Args...>::value_t;
-} // namespace utils::traits
 
 namespace front_and_back
 {
