@@ -220,13 +220,15 @@ struct basic_fixed_string
         return {data(), N};
     }
 
-    template <size_type pos = 0, size_type count = npos>
-    [[nodiscard]] constexpr substr_result_type<pos, count> substr()
+    // clang-format off
+    template <size_type pos = 0, size_type count = npos,
+              typename..., bool IsPosInBounds = pos <= N, typename = std::enable_if_t<IsPosInBounds>>
+    [[nodiscard]] constexpr auto substr() noexcept
+        -> substr_result_type<pos, count>
+    // clang-format on
     {
-        static_assert(pos <= N, "pos cannot be larger than size!");
-        constexpr size_type            rcount = calculate_substr_size<pos, count, N>();
         substr_result_type<pos, count> result;
-        details::copy(begin() + pos, begin() + pos + rcount, result.begin());
+        details::copy(begin() + pos, begin() + pos + result.size(), result.begin());
         return result;
     }
 
