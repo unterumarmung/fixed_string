@@ -450,7 +450,6 @@ template <typename T>
 void check()
 {
     using namespace utils::traits;
-    constexpr T str;
     REQUIRE(is_detected<substr_valid_t, T>::value);
     REQUIRE(!is_detected<substr_invalid_t, T>::value);
 }
