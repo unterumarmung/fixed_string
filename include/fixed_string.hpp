@@ -193,6 +193,9 @@ struct basic_fixed_string
         return _data[size() - 1];
     }
 
+    [[nodiscard]] constexpr pointer       data() noexcept { return _data.data(); }
+    [[nodiscard]] constexpr const_pointer data() const noexcept { return _data.data(); }
+
   private:
     template <size_t M>
     using same_with_other_size = basic_fixed_string<value_type, M, traits_type>;
@@ -213,9 +216,7 @@ struct basic_fixed_string
 
   public:
     // string operations
-    [[nodiscard]] constexpr pointer       data() noexcept { return _data.data(); }
-    [[nodiscard]] constexpr const_pointer data() const noexcept { return _data.data(); }
-    [[nodiscard]] constexpr               operator string_view_type() const noexcept // NOLINT(google-explicit-constructor)
+    [[nodiscard]] constexpr operator string_view_type() const noexcept // NOLINT(google-explicit-constructor)
     {
         return {data(), N};
     }
