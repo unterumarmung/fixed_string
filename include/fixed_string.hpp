@@ -119,7 +119,7 @@ struct basic_fixed_string
     using string_view_type = std::basic_string_view<value_type, traits_type>;
     static constexpr auto npos = string_view_type::npos;
 
-    constexpr basic_fixed_string() noexcept { details::fill(_data.begin(), _data.end(), static_cast<value_type>(0)); }
+    constexpr basic_fixed_string() noexcept = default;
 
     constexpr basic_fixed_string(const value_type (&array)[N + 1]) noexcept // NOLINT(google-explicit-constructor)
     {
