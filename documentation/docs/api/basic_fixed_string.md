@@ -94,6 +94,7 @@ In actual implementation, these are not the type aliases. Unfortunately, early G
 
 #### Operations
 
-| Name                                 | Description         |
-| ------------------------------------ | ------------------- |
-| [`empty`](./member-functions/substr) | returns a substring |
+| Name                                  | Description                         |
+| ------------------------------------- | ----------------------------------- |
+| [`substr`](./member-functions/substr) | returns a substring                 |
+| [`find`](./member-functions/find.mdx) | find characters in the fixed string |
