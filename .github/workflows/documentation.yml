@@ -1,0 +1,63 @@
+name: documentation
+
+on:
+  pull_request:
+    paths:
+      - 'documentation/**'
+      - '.github/workflows/documentation.yml'
+  push:
+    paths:
+      - 'documentation/**'
+      - '.github/workflows/documentation.yml'
+    branches:
+      - master
+
+jobs:
+  checks:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Test Build
+        run: |
+          cd documentation
+          if [ -e yarn.lock ]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
+          npm run build
+  gh-release:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.2.0
+        with:
+          node-version: '12.x'
+      - uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
+      - name: Release to GitHub Pages
+        env:
+          USE_SSH: true
+          GIT_USER: git
+        run: |
+          git config --global user.email "umarmungenfuerimmer@gmail.com"
+          git config --global user.name "Daniil Dudkin"
+          git push origin --delete gh-pages
+          git subtree push --prefix documentation origin gh-pages
+          git checkout gh-pages
+          if [ -e yarn.lock ]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
+          npm run deploy

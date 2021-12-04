@@ -1,0 +1,1 @@
+[[nodiscard]] constexpr size_type size() const noexcept;

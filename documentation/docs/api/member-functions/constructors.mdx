@@ -1,0 +1,43 @@
+---
+sidebar_position: 1
+sidebar_label: Constructors
+---
+# Constructors
+
+import CppOverload from '../../components/CppOverload';
+import CppOverloadList from '../../components/CppOverloadList';
+import LinkButton from '../../components/LinkButton';
+import CodeBlock from '@theme/CodeBlock';
+import Overload1 from '!!raw-loader!.//constructors/1.cpp';
+import Overload2 from '!!raw-loader!.//constructors/2.cpp';
+import Overload3 from '!!raw-loader!.//constructors/3.cpp';
+import Example from '!!raw-loader!.//constructors/example.cpp';
+
+<CppOverloadList>
+    <CppOverload num={1} code={Overload1} />
+    <CppOverload num={2} code={Overload2} />
+    <CppOverload num={3} code={Overload3} />
+</CppOverloadList>
+
+1. Default constructor. Initializes the whole string with zeros.
+2. Copy constructor. Constructs a fixed string with the same content as `other`.
+3. Constructs a `basic_fixed_string` from a `const char` array.
+
+## Parameters
+
+* `other` - another fixed string to use as source to initialize the string with
+* `array` - reference to an array of characters to use as source to initialize the fixed string with
+
+## Complexity
+
+1-3. Linear in `N`
+
+## Example
+
+<LinkButton link="https://godbolt.org/z/eexMca375">Run this code!</LinkButton>
+<CodeBlock className="language-cpp">{Example}</CodeBlock>
+Output:
+
+```
+Hello, World!
+```

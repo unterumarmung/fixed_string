@@ -1,0 +1,1 @@
+[[nodiscard]] constexpr reference operator[](size_type pos);

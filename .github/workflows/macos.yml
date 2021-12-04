@@ -1,6 +1,14 @@
 name: macos
 
-on: [push, pull_request]
+on:
+  pull_request:
+    paths-ignore:
+      - 'documentation/**'
+      - '.github/workflows/documentation.yml'
+  push:
+    paths-ignore:
+      - 'documentation/**'
+      - '.github/workflows/documentation.yml'
 
 jobs:
   build:
@@ -10,7 +18,7 @@ jobs:
       matrix:
         config:
           - { os: macos-10.15 }
-        build: [Debug, Release]
+        build: [ Debug, Release ]
 
     name: "${{matrix.config.os}}:${{matrix.build}}"
     steps:
