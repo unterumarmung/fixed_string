@@ -333,7 +333,7 @@ struct basic_fixed_string
     void swap(basic_fixed_string& other) noexcept(std::is_nothrow_swappable_v<storage_type>) { _data.swap(other._data); }
 
   private:
-    constexpr string_view_type sv() { return *this; }
+    constexpr string_view_type sv() const { return *this; }
 };
 
 template <typename TChar, typename TTraits, size_t N>
