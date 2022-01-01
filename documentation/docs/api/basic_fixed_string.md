@@ -67,12 +67,14 @@ In actual implementation, these are not the type aliases. Unfortunately, early G
 
 #### Element access
 
-| Name                                           | Description                                   |
-| ---------------------------------------------- | --------------------------------------------- |
-| [`operator[]`](./member-functions/operator-at) | access specified element                      |
-| [`at`](./member-functions/at)                  | access specified element with bounds checking |
-| [`front`](./member-functions/front)            | accesses the first character                  |
-| [`back`](./member-functions/back)              | accesses the last character                   |
+| Name                                           | Description                                          | 
+| ---------------------------------------------- | -----------------------------------------------------|
+| [`operator[]`](./member-functions/operator-at) | access specified element                             |
+| [`at`](./member-functions/at)                  | access specified element with bounds checking        |
+| [`front`](./member-functions/front)            | accesses the first character                         |
+| [`back`](./member-functions/back)              | accesses the last character                          |
+| [`data`](./member-functions/data)              | returns a pointer to the first character of a string |
+| [`c_str`](./member-functions/c_str)            | returns a non-modifiable standard C character array version of the string |
 
 #### Iterators
 
