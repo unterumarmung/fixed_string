@@ -196,6 +196,8 @@ struct basic_fixed_string
     [[nodiscard]] constexpr pointer       data() noexcept { return _data.data(); }
     [[nodiscard]] constexpr const_pointer data() const noexcept { return _data.data(); }
 
+    [[nodiscard]] constexpr const_pointer c_str() const noexcept { return data(); }
+
   private:
     template <size_t M>
     using same_with_other_size = basic_fixed_string<value_type, M, traits_type>;
