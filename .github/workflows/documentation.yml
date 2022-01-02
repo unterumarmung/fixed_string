@@ -32,6 +32,15 @@ jobs:
           npm i
           fi
           npm run build
+      - uses: vimtor/action-zip@v1
+        with:
+          files: documentation
+          dest: docs.zip
+      - uses: actions/upload-artifact@v2
+        with:
+          name: built-docs
+          path: docs.zip
+  
   gh-release:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
