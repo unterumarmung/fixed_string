@@ -98,7 +98,7 @@ constexpr void fill(ForwardIterator first, ForwardIterator last, const T& value)
 } // namespace details
 
 template <typename TChar, std::size_t N, typename TTraits = std::char_traits<TChar>>
-struct basic_fixed_string
+struct basic_fixed_string // NOLINT(cppcoreguidelines-special-member-functions)
 {
     // exposition only
     using storage_type = std::array<TChar, N + 1>;
@@ -195,6 +195,8 @@ struct basic_fixed_string
 
     [[nodiscard]] constexpr pointer       data() noexcept { return _data.data(); }
     [[nodiscard]] constexpr const_pointer data() const noexcept { return _data.data(); }
+
+    [[nodiscard]] constexpr const_pointer c_str() const noexcept { return data(); }
 
   private:
     template <size_t M>

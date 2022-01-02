@@ -1,0 +1,46 @@
+---
+sidebar_position: 5
+sidebar_label: data
+---
+# `fixstr::basic_fixed_string::data`
+
+import Overload1 from '!!raw-loader!.//data/1.cpp';
+import Overload2 from '!!raw-loader!.//data/2.cpp';
+import Example from '!!raw-loader!.//data/example.cpp';
+import CppOverload from '../../components/CppOverload';
+import CppOverloadList from '../../components/CppOverloadList';
+import LinkButton from '../../components/LinkButton';
+import CodeBlock from '@theme/CodeBlock';
+
+<CppOverloadList>
+    <CppOverload num={1} code={Overload1} />
+    <CppOverload num={2} code={Overload2} />
+</CppOverloadList>
+
+Returns a pointer to the underlying array serving as character storage. 
+
+The pointer is such that the range `[data(); data() + size()]` 
+is valid and the values in it correspond to the values stored in the string. 
+
+The returned array is null-terminated, that is, `data()` and `c_str()` perform the same function.
+
+## Parameters
+(none)
+
+## Return value
+A pointer to the underlying character storage.
+`data() + i == std::addressof(operator[](i))` for every `i` in `[0, size()]`.
+
+## Complexity
+Constant.
+
+## Example
+
+<LinkButton link="https://godbolt.org/z/EPKfczx9o">Run this code!</LinkButton>
+<CodeBlock className="language-cpp">{Example}</CodeBlock>
+Output:
+
+```
+data() after modification: Hello, world!
+f == data(): true
+```

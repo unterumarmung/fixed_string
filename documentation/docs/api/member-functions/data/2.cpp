@@ -1,0 +1,1 @@
+[[nodiscard]] constexpr const_pointer data() const noexcept;
