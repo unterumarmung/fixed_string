@@ -4,18 +4,16 @@
 
 int main()
 {
-    std::cout << std::boolalpha;
     {
         fixstr::fixed_string hw_s = "hello, world!";
-        char* const f = std::addressof(hw_c.front());
-        std::cout << "f == data(): " << (f == hw_c.data()) << '\n'; 
+        char* const f = std::addressof(hw_s.front());
         *f = 'H';
-        std::cout << hw_s.data() << '\n'; // Hello, world!
+        std::cout << "data() after modification: " << hw_s.data() << '\n'; // Hello, world!
     }
 
     {
         constexpr const fixstr::fixed_string hw_c = "Hello, world!";
         const char* const f = std::addressof(hw_c.front());
-        std::cout << "f == data(): " << (f == hw_c.data()) << '\n'; 
+        std::cout << std::boolalpha << "f == data(): " << (f == hw_c.data()) << '\n'; 
     }
 }
