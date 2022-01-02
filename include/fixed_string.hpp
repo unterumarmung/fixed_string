@@ -126,14 +126,6 @@ struct basic_fixed_string // NOLINT(cppcoreguidelines-special-member-functions)
         details::copy(std::begin(array), std::end(array), _data.begin());
     }
 
-    constexpr basic_fixed_string(basic_fixed_string const& other) noexcept { details::copy(other._data.begin(), other._data.end(), _data.begin()); }
-
-    constexpr basic_fixed_string& operator=(const basic_fixed_string& other) noexcept
-    {
-        details::copy(other._data.begin(), other._data.end(), _data.begin());
-        return *this;
-    }
-
     constexpr basic_fixed_string& operator=(const value_type (&array)[N + 1]) noexcept
     {
         details::copy(std::begin(array), std::end(array), _data.begin());
