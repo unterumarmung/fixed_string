@@ -32,6 +32,11 @@ jobs:
           npm i
           fi
           npm run build
+      - uses: actions/upload-artifact@v2
+          with:
+            name: my-artifact
+            path: documentation
+  
   gh-release:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
