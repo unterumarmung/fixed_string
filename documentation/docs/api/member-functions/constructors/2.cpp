@@ -1,1 +1,1 @@
-constexpr basic_fixed_string(basic_fixed_string const& other) noexcept;
+constexpr basic_fixed_string(const value_type (&array)[N + 1]) noexcept;
