@@ -22,14 +22,14 @@ Returns a pointer to the underlying array serving as character storage.
 The pointer is such that the range `[data(); data() + size()]` 
 is valid and the values in it correspond to the values stored in the string. 
 
-The returned array is null-terminated, that is, data() and c_str() perform the same function.
+The returned array is null-terminated, that is, `data()` and `c_str()` perform the same function.
 
 ## Parameters
 (none)
 
 ## Return value
 A pointer to the underlying character storage.
-`c_str() + i == std::addressof(operator[](i))` for every i in [0, size()].
+`data() + i == std::addressof(operator[](i))` for every `i` in `[0, size()]`.
 
 ## Complexity
 Constant.
