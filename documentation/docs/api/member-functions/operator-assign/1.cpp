@@ -1,1 +1,1 @@
-constexpr basic_fixed_string& operator=(const basic_fixed_string& other) noexcept;
+constexpr basic_fixed_string& operator=(const value_type (&array)[N + 1]) noexcept;
