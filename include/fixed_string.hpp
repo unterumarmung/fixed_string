@@ -618,11 +618,11 @@ std::basic_ostream<TChar, TTraits>& operator<<(std::basic_ostream<TChar, TTraits
 template <size_t N>
 constexpr int stoi(const fixed_string<N>& str, int base = 10)
 {
-    int                                      res = 0;
-    typename fixed_string<N>::const_iterator it = str.begin();
-    typename fixed_string<N>::const_iterator ite = str.end();
-    int                                      sign = 1;
-    int                                      tmp = 0;
+    int  res = 0;
+    auto it = str.cbegin();
+    auto ite = str.cend();
+    int  sign = 1;
+    int  tmp = 0;
 
     while (it != ite && std::isspace(*it) != 0)
     {
