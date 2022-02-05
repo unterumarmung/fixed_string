@@ -618,16 +618,14 @@ std::basic_ostream<TChar, TTraits>& operator<<(std::basic_ostream<TChar, TTraits
 template <size_t N>
 constexpr int stoi(const fixed_string<N>& str, int base = 10)
 {
-    int  res = 0;
     auto it = str.cbegin();
     auto ite = str.cend();
-    int  sign = 1;
-    int  tmp = 0;
 
     while (it != ite && std::isspace(*it) != 0)
     {
         it++;
     }
+    int sign = 1;
     if (it != ite && (*it == '-' || *it == '+'))
     {
         sign = (*it == '-') ? -1 : 1;
@@ -637,9 +635,11 @@ constexpr int stoi(const fixed_string<N>& str, int base = 10)
     {
         it += 2;
     }
+    int res = 0;
     while (it != ite && std::isalnum(*it) != 0 && (base > 1 && base < 37))
     {
-        tmp = res;
+        const int tmp = res;
+
         if (std::isdigit(*it) != 0 && ((*it) - '0') < base)
             res = (res * base) + ((*it) - '0') * sign;
         else if (std::isalpha(*it) != 0 && (9 + (std::tolower(*it) - 'a' + 1)) < base)
