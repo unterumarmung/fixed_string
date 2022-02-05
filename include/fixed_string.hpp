@@ -615,6 +615,44 @@ std::basic_ostream<TChar, TTraits>& operator<<(std::basic_ostream<TChar, TTraits
     return out;
 }
 
+template <size_t N>
+constexpr int stoi(const fixed_string<N>& str, int base = 10)
+{
+    auto it = str.cbegin();
+    auto ite = str.cend();
+
+    while (it != ite && std::isspace(*it) != 0)
+    {
+        it++;
+    }
+    int sign = 1;
+    if (it != ite && (*it == '-' || *it == '+'))
+    {
+        sign = (*it == '-') ? -1 : 1;
+        it++;
+    }
+    if (base == 16 && it != ite && it + 1 != ite && *it == '0' && std::tolower(*(it + 1)) == 'x')
+    {
+        it += 2;
+    }
+    int res = 0;
+    while (it != ite && std::isalnum(*it) != 0 && (base > 1 && base < 37))
+    {
+        const int tmp = res;
+
+        if (std::isdigit(*it) != 0 && ((*it) - '0') < base)
+            res = (res * base) + ((*it) - '0') * sign;
+        else if (std::isalpha(*it) != 0 && (9 + (std::tolower(*it) - 'a' + 1)) < base)
+            res = (res * base) + ((9 + (std::tolower(*it) - 'a' + 1))) * sign;
+        else
+            break;
+        if ((sign > 0 && tmp > res) || (sign < 0 && tmp < res))
+            throw std::out_of_range("fixedstr stoi");
+        it++;
+    }
+    return (res);
+}
+
 } // namespace fixstr
 
 // hash support
