@@ -17,14 +17,14 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { os: windows-2016, vs: "Visual Studio 2017" } # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2016-Readme.md#visual-studio-enterprise-2017
-          - { os: windows-2019, vs: "Visual Studio 2019" } # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md#visual-studio-enterprise-2019
+          - { os: windows-2022, vs: "Visual Studio 2022" }
+          - { os: windows-2025, vs: "Visual Studio 2022" }
         build: [ Debug, Release ]
         platform: [ Win32, x64 ]
 
     name: "${{matrix.config.vs}}:${{matrix.platform}}:${{matrix.build}}"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Configure CMake
         run: cmake -A ${{matrix.platform}}
