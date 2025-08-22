@@ -9,13 +9,13 @@ sidebar_label: basic_fixed_string
 
 ```cpp
 template<
-    typename TChar, 
-    std::size_t N, 
+    typename TChar,
+    std::size_t N,
     typename TTraits = std::char_traits<TChar>
 > struct basic_fixed_string;
 ```
 
-The class template `basic_fixed_string` describes objects that can store a sequence consisting of a fixed number of arbitrary `char`-like objects with the first element of the sequence at position zero. 
+The class template `basic_fixed_string` describes objects that can store a sequence consisting of a fixed number of arbitrary `char`-like objects with the first element of the sequence at position zero.
 
 Several typedefs for common character types are provided:
 
@@ -28,33 +28,33 @@ Several typedefs for common character types are provided:
 | `fixstr::fixed_wstring<N>`   | `fixstr::basic_fixed_string<wchar_t, N>`  |               |
 
 :::info NOTE
-In actual implementation, these are not the type aliases. Unfortunately, early GCC versions that are supported cNTTP couldn't automatically deduct `size_t` template parameter when an alias was used in cNTTP. So, the actual implementation is that every "typedef" is actually a separate class inherited from `basic_fixed_string`. 
+In actual implementation, these are not the type aliases. Unfortunately, early GCC versions that are supported cNTTP couldn't automatically deduct `size_t` template parameter when an alias was used in cNTTP. So, the actual implementation is that every "typedef" is actually a separate class inherited from `basic_fixed_string`.
 :::
 
 ### Template parameters
 
-| Name      | Description                                                                                                                                                                                                                                                                   |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `TChar`   | character type                                                                                                                                                                                                                                                                |
-| `N`       | string size                                                                                                                                                                                                                                                                   |
-| `TTraits` | [`CharTraits`](https://en.cppreference.com/w/cpp/named_req/CharTraits) class specifying the operations on the character type. Like for `std::basic_string` or `std::basic_string_view`, `TTraits::char_type` must name the same type as `TChar` or the program is ill-formed. |
+| Name      | Description |
+| --------- | ----------- |
+| `TChar`   | character type |
+| `N`       | string size |
+| `TTraits` | [`CharTraits`](https://en.cppreference.com/w/cpp/named_req/CharTraits) class specifying operations on the character type. As with `std::basic_string` or `std::basic_string_view`, `TTraits::char_type` must be the same as `TChar` or the program is ill-formed. |
 
 ### Member types
 
-| Member type              | Definiton                                                                                                                 |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| `traits_type`            | `TTraits`                                                                                                                 |
-| `value_type`             | `TChar`                                                                                                                   |
-| `pointer`                | `value_type*`                                                                                                             |
-| `const_pointer`          | `const value_type*`                                                                                                       |
-| `reference`              | `value_type&`                                                                                                             |
-| `iterator`               | [`LegacyRandomAccessIterator`](https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator) to `value_type`          |
-| `const_iterator`         | Constant [`LegacyRandomAccessIterator`](https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator) to `value_type` |
-| `reverse_iterator`       | [`std::reverse_iterator<iterator>`](https://en.cppreference.com/w/cpp/iterator/reverse_iterator)                          |
-| `const_reverse_iterator` | [`std::reverse_iterator<const_iterator>`](https://en.cppreference.com/w/cpp/iterator/reverse_iterator)                    |
-| `size_type`              | `size_t`                                                                                                                  |
-| `difference_type`        | `ptrdiff_t`                                                                                                               |
-| `string_view_type`       | `std::basic_string_view<value_type, traits_type>`                                                                         |
+| Member type            | Definition |
+| ---------------------- | ---------- |
+| `traits_type`          | `TTraits` |
+| `value_type`           | `TChar` |
+| `pointer`              | `value_type*` |
+| `const_pointer`        | `const value_type*` |
+| `reference`            | `value_type&` |
+| `iterator`             | [`LegacyRandomAccessIterator`](https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator) to `value_type` |
+| `const_iterator`       | Constant [`LegacyRandomAccessIterator`](https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator) to `value_type` |
+| `reverse_iterator`     | [`std::reverse_iterator<iterator>`](https://en.cppreference.com/w/cpp/iterator/reverse_iterator) |
+| `const_reverse_iterator` | [`std::reverse_iterator<const_iterator>`](https://en.cppreference.com/w/cpp/iterator/reverse_iterator) |
+| `size_type`            | `size_t` |
+| `difference_type`      | `ptrdiff_t` |
+| `string_view_type`     | `std::basic_string_view<value_type, traits_type>` |
 
 ### Member functions
 
@@ -63,40 +63,50 @@ In actual implementation, these are not the type aliases. Unfortunately, early G
 | Name                                               | Description                       |
 | -------------------------------------------------- | --------------------------------- |
 | [*(constructor)*](./member-functions/constructors) | Constructs a `basic_fixed_string` |
-| [`operator=`](./member-functions/operator-assign)  | assigns values to the string      |
+| [`operator=`](./member-functions/operator-assign)  | Assigns values to the string      |
 
 #### Element access
 
-| Name                                           | Description                                          | 
-| ---------------------------------------------- | -----------------------------------------------------|
-| [`operator[]`](./member-functions/operator-at) | access specified element                             |
-| [`at`](./member-functions/at)                  | access specified element with bounds checking        |
-| [`front`](./member-functions/front)            | accesses the first character                         |
-| [`back`](./member-functions/back)              | accesses the last character                          |
-| [`data`](./member-functions/data)              | returns a pointer to the first character of a string |
-| [`c_str`](./member-functions/c_str)            | returns a non-modifiable standard C character array version of the string |
+| Name                                           | Description                                          |
+| ---------------------------------------------- | ---------------------------------------------------- |
+| [`operator[]`](./member-functions/operator-at) | Accesses specified element                           |
+| [`at`](./member-functions/at)                  | Accesses specified element with bounds checking      |
+| [`front`](./member-functions/front)            | Accesses the first character                         |
+| [`back`](./member-functions/back)              | Accesses the last character                          |
+| [`data`](./member-functions/data)              | Returns a pointer to the first character of a string |
+| [`c_str`](./member-functions/c_str)            | Returns a non-modifiable standard C character array version of the string |
 
 #### Iterators
 
 | Name                                                  | Description                                 |
 | ----------------------------------------------------- | ------------------------------------------- |
-| [`begin` <br/> `cbegin`](./member-functions/begin)    | returns an iterator to the beginning        |
-| [`end` <br/> `cend`](./member-functions/end)          | returns an iterator to the end              |
-| [`rbegin` <br/> `crbegin`](./member-functions/rbegin) | returns a reverse iterator to the beginning |
-| [`rend` <br/> `crend`](./member-functions/rend)       | returns a reverse iterator to the end       |
+| [`begin` <br/> `cbegin`](./member-functions/begin)    | Returns an iterator to the beginning        |
+| [`end` <br/> `cend`](./member-functions/end)          | Returns an iterator to the end              |
+| [`rbegin` <br/> `crbegin`](./member-functions/rbegin) | Returns a reverse iterator to the beginning |
+| [`rend` <br/> `crend`](./member-functions/rend)       | Returns a reverse iterator to the end       |
 
 #### Capacity
 
 | Name                                             | Description                              |
 | ------------------------------------------------ | ---------------------------------------- |
-| [`empty`](./member-functions/empty)              | checks whether the fixed string is empty |
-| [`size` <br/> `length`](./member-functions/size) | returns the number of characters         |
-| [`max_size`](./member-functions/max_size)        | returns the maximum number of characters |
-
+| [`empty`](./member-functions/empty)              | Checks whether the fixed string is empty |
+| [`size` <br/> `length`](./member-functions/size) | Returns the number of characters         |
+| [`max_size`](./member-functions/max_size)        | Returns the maximum number of characters |
 
 #### Operations
 
-| Name                                  | Description                         |
-| ------------------------------------- | ----------------------------------- |
-| [`substr`](./member-functions/substr) | returns a substring                 |
-| [`find`](./member-functions/find.mdx) | find characters in the fixed string |
+| Name | Description |
+| --- | --- |
+| [`substr`](./member-functions/substr) | Returns a substring |
+| [`find`](./member-functions/find.mdx) | Finds characters in the fixed string |
+| [`compare`](./member-functions/compare) | Lexicographically compares two strings |
+| [`starts_with`](./member-functions/starts_with) | Checks if the string starts with a prefix |
+| [`ends_with`](./member-functions/ends_with) | Checks if the string ends with a suffix |
+| [`contains`](./member-functions/contains) | Checks if a substring is present |
+
+#### Non-member functions
+
+| Name | Description |
+| ---- | ----------- |
+| [`swap`](./free-functions/swap) | Exchanges the contents of two strings |
+

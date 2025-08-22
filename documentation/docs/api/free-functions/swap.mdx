@@ -1,0 +1,29 @@
+---
+sidebar_position: 1
+sidebar_label: swap
+---
+
+# `fixstr::swap`
+
+import Overload1 from '!!raw-loader!.//swap/1.cpp';
+import Example from '!!raw-loader!.//swap/example.cpp';
+import CppOverload from '../../components/CppOverload';
+import CppOverloadList from '../../components/CppOverloadList';
+import CodeBlock from '@theme/CodeBlock';
+
+<CppOverloadList>
+    <CppOverload num={1} code={Overload1} />
+</CppOverloadList>
+
+Exchanges the contents of `lhs` and `rhs`.
+
+## Parameters
+* `lhs` — the first string
+* `rhs` — the second string
+
+## Complexity
+Constant.
+
+## Example
+
+<CodeBlock className="language-cpp">{Example}</CodeBlock>
