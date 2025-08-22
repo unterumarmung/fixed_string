@@ -1,0 +1,61 @@
+---
+sidebar_position: 16
+sidebar_label: compare
+---
+# `fixstr::basic_fixed_string::compare`
+
+import Overload1 from '!!raw-loader!.//compare/1.cpp';
+import Overload2 from '!!raw-loader!.//compare/2.cpp';
+import Overload3 from '!!raw-loader!.//compare/3.cpp';
+import Overload4 from '!!raw-loader!.//compare/4.cpp';
+import Overload5 from '!!raw-loader!.//compare/5.cpp';
+import Overload6 from '!!raw-loader!.//compare/6.cpp';
+import Example from '!!raw-loader!.//compare/example.cpp';
+import CppOverload from '../../components/CppOverload';
+import CppOverloadList from '../../components/CppOverloadList';
+import CodeBlock from '@theme/CodeBlock';
+
+<CppOverloadList>
+    <CppOverload num={1} code={Overload1} />
+    <CppOverload num={2} code={Overload2} />
+    <CppOverload num={3} code={Overload3} />
+    <CppOverload num={4} code={Overload4} />
+    <CppOverload num={5} code={Overload5} />
+    <CppOverload num={6} code={Overload6} />
+</CppOverloadList>
+
+Lexicographically compares this string with another character sequence.
+
+The overloads perform the following comparisons:
+
+1. Compares with `sv`.
+2. Compares the substring `[pos1, pos1 + count1)` with `sv`.
+3. Compares the substring `[pos1, pos1 + count1)` with `sv` beginning at `pos2` of length `count2`.
+4. Compares with the null-terminated character string `s`.
+5. Compares the substring `[pos1, pos1 + count1)` with the character string `s`.
+6. Compares the substring `[pos1, pos1 + count1)` with the first `count2` characters of `s`.
+
+## Parameters
+* `pos1` — position of the first character to compare
+* `count1` — length of the substring to compare
+* `sv` — string view to compare
+* `pos2` — position of the first character in `sv`
+* `count2` — number of characters to compare
+* `s` — pointer to a character string
+
+## Return value
+A negative value if `*this` is less than the other sequence, zero if they are equal, or a positive value if greater.
+
+## Complexity
+At most linear in the length of the compared ranges.
+
+## Example
+
+<CodeBlock className="language-cpp">{Example}</CodeBlock>
+Output:
+
+```
+-1
+0
+1
+```

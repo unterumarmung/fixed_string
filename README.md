@@ -1,5 +1,5 @@
 # fixed_string
-C++ library that provides a `basic_fixed_string` template that combines `std::array` fixed-size semantic and `std::string` semantic together
+C++ library that provides a `basic_fixed_string` template combining `std::array`'s fixed-size semantics with `std::string` semantics.
 
 ## Features
 
@@ -7,8 +7,8 @@ C++ library that provides a `basic_fixed_string` template that combines `std::ar
 * Header-only
 * Dependency-free
 * No dynamic allocations
-* Fully constexpr
-* Can be used as class non-type template parameter __(since C++20)__
+* Fully `constexpr`
+* Can be used as a class non-type template parameter *(since C++20)*
 
 ## Examples
 
@@ -54,16 +54,16 @@ void foo()
 ```
 
 ## Integration
-Since it's a header only library, you need just copy `fixed_string.hpp` to your project.
+Since it's a header-only library, you just need to copy `fixed_string.hpp` to your project.
 
-If you are using [vcpkg](https://github.com/Microsoft/vcpkg/) on your project for external dependencies, then you can use the [**fixed-string** package](https://github.com/microsoft/vcpkg/tree/master/ports/fixed-string).
+If you are using [vcpkg](https://github.com/Microsoft/vcpkg/) for external dependencies, you can use the [*fixed-string* package](https://github.com/microsoft/vcpkg/tree/master/ports/fixed-string).
 
-If you are using Conan on your project for external dependencies, then you can use the Conan recipe located in the root of the repository.
+If you are using Conan for external dependencies, you can use the Conan recipe located in the root of the repository.
 
 ## Compiler compatibility
 * GCC >= 7.3
 * Clang >= 5
 * ICC >= 19.0.1
-* MSVC >= 14.28 / Visual Studio 2019 (I don't have access to older VS versions right now, so it can work on older versions too)
+* MSVC >= 14.28 / Visual Studio 2019 (I don't have access to older versions, so it might work on them too)
 
-**Using `basic_fixed_string` as class non-type template parameter full available in GCC >= 10 and VS 2019 16.9 or newer**
+**Using `basic_fixed_string` as a class non-type template parameter is fully available in GCC >= 10 and VS 2019 16.9 or newer**
