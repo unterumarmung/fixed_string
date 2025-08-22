@@ -1,0 +1,57 @@
+---
+sidebar_position: 15
+sidebar_label: find
+---
+# `fixstr::basic_fixed_string::find`
+
+import Overload1 from '!!raw-loader!.//find/1.cpp';
+import Overload2 from '!!raw-loader!.//find/2.cpp';
+import Overload3 from '!!raw-loader!.//find/3.cpp';
+import Overload4 from '!!raw-loader!.//find/4.cpp';
+import Overload5 from '!!raw-loader!.//find/5.cpp';
+import Example from '!!raw-loader!.//find/example.cpp';
+import CppOverload from '../../components/CppOverload';
+import CppOverloadList from '../../components/CppOverloadList';
+import LinkButton from '../../components/LinkButton';
+import CodeBlock from '@theme/CodeBlock';
+
+<CppOverloadList>
+    <CppOverload num={1} code={Overload1} />
+    <CppOverload num={2} code={Overload2} />
+    <CppOverload num={3} code={Overload3} />
+    <CppOverload num={4} code={Overload4} />
+    <CppOverload num={5} code={Overload5} />
+</CppOverloadList>
+
+Finds the first substring equal to the given character sequence. Search begins at `pos`, i.e. the found substring must not begin in a position preceding `pos`.
+
+1. Finds the first substring equal to `str`.
+
+2. Finds the first substring equal to `sv`.
+
+3. Finds the first substring equal to the range `[s, s + n)`. This range may contain null characters.
+
+4. Finds the first substring equal to the character string pointed to by s. The length of the string is determined by the first null character using `TTraits::length(s)`.
+
+5. Finds the first character `ch`.
+
+## Parameters
+* `str`	-	string to search for
+* `sv`  -   string view to search for
+* `pos`	-	position at which to start the search
+* `n`   -	length of substring to search for
+* `s`   -	pointer to a character string to search for
+* `ch`	-	character to search for
+
+## Return value
+
+Position of the first character of the found substring or `npos` if no such substring is found.
+
+## Complexity
+
+Linear in `size()`.
+
+## Example
+
+<LinkButton link="https://godbolt.org/z/5q38j3jWj">Run this code!</LinkButton>
+<CodeBlock className="language-cpp">{Example}</CodeBlock>

@@ -1,0 +1,39 @@
+---
+sidebar_position: 7
+sidebar_label: c_str
+---
+# `fixstr::basic_fixed_string::c_str`
+
+import Overload1 from '!!raw-loader!.//c_str/1.cpp';
+import Example from '!!raw-loader!.//c_str/example.cpp';
+import CppOverload from '../../components/CppOverload';
+import CppOverloadList from '../../components/CppOverloadList';
+import LinkButton from '../../components/LinkButton';
+import CodeBlock from '@theme/CodeBlock';
+
+<CppOverloadList>
+    <CppOverload num={1} code={Overload1} />
+</CppOverloadList>
+
+Returns a pointer to a null-terminated character array with data equivalent to those stored in the string. 
+
+## Parameters
+(none)
+
+## Return value
+Pointer to the underlying character storage. 
+`c_str() + i == std::addressof(operator[](i))` for every `i` in `[0, size()]`.
+
+## Complexity
+Constant.
+
+## Example
+
+<LinkButton link="https://godbolt.org/z/fjo8rMs6j">Run this code!</LinkButton>
+<CodeBlock className="language-cpp">{Example}</CodeBlock>
+Output:
+
+```
+Terminating character: \0
+The answer to The Ultimate Question of Life, the Universe, and Everything: 42
+```

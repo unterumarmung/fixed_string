@@ -1,0 +1,46 @@
+---
+sidebar_position: 5
+sidebar_label: front
+---
+# `fixstr::basic_fixed_string::front`
+
+import Overload1 from '!!raw-loader!.//front/1.cpp';
+import Overload2 from '!!raw-loader!./front/2.cpp';
+import Example from '!!raw-loader!.//front/example.cpp';
+import CppOverload from '../../components/CppOverload';
+import CppOverloadList from '../../components/CppOverloadList';
+import LinkButton from '../../components/LinkButton';
+import CodeBlock from '@theme/CodeBlock';
+
+<CppOverloadList>
+    <CppOverload num={1} code={Overload1} />
+    <CppOverload num={2} code={Overload2} />
+</CppOverloadList>
+
+Returns reference to the first character in the string. 
+
+The function is not provided for empty strings.
+
+:::info note
+Note that `requires` is used only in the documentation purposes. 
+In order to support C++17 the implementation uses SFINAE.
+:::
+
+## Return value
+
+Reference to the first element.
+
+## Complexity
+
+Constant.
+
+## Example
+
+<LinkButton link="https://godbolt.org/z/G5jEnq5Eh">Run this code!</LinkButton>
+<CodeBlock className="language-cpp">{Example}</CodeBlock>
+Output:
+
+```
+exemplary
+Exemplary
+```

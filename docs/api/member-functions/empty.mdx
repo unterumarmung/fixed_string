@@ -1,0 +1,38 @@
+---
+sidebar_position: 7
+sidebar_label: empty
+---
+# `fixstr::basic_fixed_string::empty`
+
+import Overload1 from '!!raw-loader!.//empty/1.cpp';
+import Example from '!!raw-loader!.//empty/example.cpp';
+import CppOverload from '../../components/CppOverload';
+import CppOverloadList from '../../components/CppOverloadList';
+import LinkButton from '../../components/LinkButton';
+import CodeBlock from '@theme/CodeBlock';
+
+<CppOverloadList>
+    <CppOverload num={1} code={Overload1} />
+</CppOverloadList>
+
+Checks if the fixed string has no elements, i.e. whether `begin() == end()`.
+
+## Parameters
+(none)
+
+## Return value
+`true` if the fixed string is empty, `false` otherwise
+
+## Complexity
+Constant.
+
+## Example
+
+<LinkButton link="https://godbolt.org/z/fd53T6Knn">Run this code!</LinkButton>
+<CodeBlock className="language-cpp">{Example}</CodeBlock>
+Output:
+
+```
+hello_world.empty(): false
+no_hello_world.empty(): true
+```
