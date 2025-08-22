@@ -1,6 +1,5 @@
 include(CheckCXXCompilerFlag)
 
-set(SOURCES test.cpp)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     set(OPTIONS /W4 /WX)
@@ -18,8 +17,9 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 
 function(make_test src target std)
-    add_executable(${target} ${src})
+    add_executable(${target} ${src} minitest/minitest_main.cpp)
     target_compile_options(${target} PRIVATE ${OPTIONS})
+    target_include_directories(${target} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
     target_link_libraries(${target} PRIVATE ${CMAKE_PROJECT_NAME})
     set_target_properties(${target} PROPERTIES CXX_EXTENSIONS OFF)
     if(std)
