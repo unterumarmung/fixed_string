@@ -1,0 +1,12 @@
+---
+Checks: >
+  -*,
+  clang-analyzer-*,
+  clang-diagnostic-*,
+  bugprone-*,
+  performance-*
+WarningsAsErrors: '*'
+# Only analyze headers from this repository; ignore external headers
+HeaderFilterRegex: '^(include/|test/(?!third_party/))'
+FormatStyle: file
+...
